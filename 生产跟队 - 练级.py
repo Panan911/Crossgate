@@ -17,7 +17,8 @@ def begin():
                     pet_act('防御')
                 else :
                     pet_act('攻击')
-            dm.moveto(324,209)
+            r_pos = random.randint(1,20)
+            dm.moveto(324 + r_pos,209 + r_pos)
     else :
         # ic('未在战斗')
         pass
@@ -121,9 +122,10 @@ def ordinary_acct():
 
 def player_def():
     ic('人物防御')
+    r_pos = random.randint(1,10)
     color = dm.GetColor(383,54)
     if color == "d4ad6a" :
-        dm.moveto(383,54)
+        dm.moveto(383 + r_pos,54)
         time.sleep(0.1)
         dm.leftclick()
 

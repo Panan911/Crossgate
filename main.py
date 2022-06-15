@@ -167,7 +167,7 @@ class main():
 
         player_name = self.Get_player_name()
         for i in monsters.keys():
-            if monsters[i][0] == player_name :
+            if monsters[i][0][1:4] == player_name[1:4] :
                 player_hp,player_maxhp,player_mp,player_maxmp = monsters[i][2],monsters[i][3],monsters[i][4],monsters[i][5]
                 player_sn = int(i)
                 pet_sn = (player_sn) + 5 if (player_sn) < 5 else (player_sn - 5)
