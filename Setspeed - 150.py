@@ -18,9 +18,9 @@ hwnd = dm.EnumWindow(0,"魔力寶貝","",1+4+8+16)
 hwnd = hwnd.split(',')
 while 1:
 	for i in hwnd:
-		speed = dm.ReadInt(i,"00F6F820",0)
+		speed = dm.ReadInt(i,"F70950",0)
 		if speed == 100 :
-			dm.WriteInt(i,"00F6F820",0,130)
+			dm.WriteInt(i,"F70950",0,130)
 	time.sleep(5)
 
 # a5 db a4 c6 a7 f0 c0 bb

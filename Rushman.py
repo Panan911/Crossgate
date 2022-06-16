@@ -209,9 +209,6 @@ def chick_monster():
     ic(gw_x,gw_y)
     dm.moveto(gw_x,gw_y)
     time.sleep(0.1)
-    # while dm.readint(hwnd,"00937FEC",0) != 2 :
-    #     chose_monster()
-    #     time.sleep(0.5)
     dm.leftclick()
 
 

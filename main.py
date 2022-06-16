@@ -23,14 +23,14 @@ class main():
     def Get_player_name(self):
         '''人物名称'''
         global player_name
-        player_name = dm.ReadString(hwnd,"00F6F7B8",0,12).encode('gb18030').decode('big5')
+        player_name = dm.ReadString(hwnd,"00F708E8",0,12).encode('gb18030').decode('big5')
         player_name = self.Change_GBK(player_name)
         return player_name
 
     def Get_player_job(self):
         '''职业'''
         global job_name
-        job_name = dm.ReadString(hwnd,"00EB01E8",0,20).encode('gb18030').decode('big5')
+        job_name = dm.ReadString(hwnd,"00EB1318",0,20).encode('gb18030').decode('big5')
         job_name = self.Change_GBK(job_name)
         if "弓" in job_name :
             job_name = "gongjianshou"
@@ -60,12 +60,12 @@ class main():
         '''人物血魔'''
         # global s_minhp,s_maxhp,s_minmp,s_maxmp
         #人物hp
-        hp = dm.ReadString(hwnd, "00CD47D0", 0, 12)
+        hp = dm.ReadString(hwnd, "00CD5900", 0, 15)
         s_hp = hp.split("/")
         self.s_minhp = int(s_hp[0])
         self.s_maxhp = int(s_hp[1])
         #人物mp
-        mp = dm.ReadString(hwnd, "00CD9A08", 0, 12)
+        mp = dm.ReadString(hwnd, "00CDAB38", 0, 15)
         s_mp = mp.split("/")
         self.s_minmp = int(s_mp[0])
         self.s_maxmp = int(s_mp[1])
@@ -74,7 +74,7 @@ class main():
     def Get_player_moving(self):
         '''人物是否正在移动'''
         global is_moving
-        is_moving = dm.ReadInt(hwnd,"0055BEA8",0)
+        is_moving = dm.ReadInt(hwnd,"0055CEA8",0)
         if is_moving != 65535 :
             is_moving = 1
         else :
@@ -84,8 +84,8 @@ class main():
     def Get_player_pos(self):
         '''人物坐标'''
         global mapx,mapy
-        self.mapx = int(dm.ReadFloat(hwnd,"0096CDF4")/64)
-        self.mapy = int(dm.ReadFloat(hwnd,"0096CDF8")/64)
+        self.mapx = int(dm.ReadFloat(hwnd,"0096DF24")/64)
+        self.mapy = int(dm.ReadFloat(hwnd,"0096DF28")/64)
         return self.mapx,self.mapy
 
     ######################################################################################################
@@ -93,7 +93,7 @@ class main():
     def Get_map_name(self):
         '''地图名称'''
         global map_name
-        map_name = dm.ReadString(hwnd,"0096CDD8",0,15).encode('gb18030').decode('big5')
+        map_name = dm.ReadString(hwnd,"0096DF08",0,15).encode('gb18030').decode('big5')
         return self.Change_GBK(map_name)
     ######################################################################################################
     # def click_memu(self,memu_name):
@@ -106,7 +106,7 @@ class main():
         '''自动战斗标识(战斗中3 战斗结束画面1 非战斗0)'''
         global is_fight
         is_fight = 0
-        get_is_fight = lambda is_fight : dm.ReadInt(hwnd,"0073AE20",0)
+        get_is_fight = lambda is_fight : dm.ReadInt(hwnd,"0073BE20",0)
         return get_is_fight(is_fight)
 
     def Get_whois_act(self):
@@ -116,14 +116,14 @@ class main():
         return whos_act
 
     def Get_fight_round(self):
-        fight_round = dm.ReadInt(hwnd,"005A7D90",0)
+        fight_round = dm.ReadInt(hwnd,"005A8D90",0)
         return fight_round
 
     def Get_monster_info(self):
         '''统计怪物情况'''
         # global gw_cnt,monsters_list_front,monsters_list_back,monsters
         global is_lv1
-        monster_mess=dm.ReadString(hwnd, "0059FBA8", 0, 5000).encode('gb18030').decode('big5')
+        monster_mess=dm.ReadString(hwnd, "005A0C17", 0, 5000).encode('gb18030').decode('big5')
         monster_mess = monster_mess.split('|')
         #去掉前面两位
         del monster_mess[0:2]
@@ -281,32 +281,3 @@ hwnd = dm.GetMousePointWindow()
 dm_ret = dm.SetDict(0,"font.txt")
 dm_ret = dm.BindWindow(hwnd, "gdi", "windows", "windows", 0)
 game = main()
-# item_base = 0xF75B34
-# print(dm.readint(hwnd,"F75B34",0))
-# item_name = 0xF75B36
-# item_num = 0xF76778
-# offset = 0xC5C
-
-# for i in range(20):
-#     is_have_item = 0
-#     item_base = hex(item_base)
-#     is_have_item = dm.readint(hwnd,item_base,0)
-#     print(is_have_item)
-
-# main()
-# print(main().Get_nurse_window())
-# print(hwnd)
-# player_name = dm.ReadString(hwnd,"00F6F7B8",0,12).encode('gb18030').decode('big5')
-# print(player_name)
-# main().reggame()
-# color = dm.GetColor(383,30)
-# print(color)
-# NameBase = 0xEB0204
-# NameBase = hex(NameBase)
-# name = dm.ReadString(hwnd,NameBase,0,12).encode('gb18030').decode('big5')
-# print(name)
-# main().reggame()
-# x = 0
-# y = 0
-# dm_ret = dm.FindStr(0,0,2000,2000,'LV3',"ffffff-000000",1.0,x,y)
-# print(dm_ret)
