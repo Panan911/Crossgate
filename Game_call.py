@@ -1,22 +1,23 @@
 from main import *
 import sys
 import random
+import main as game
 
 
 def Call_npc_nurse():
     '''自动补给'''
-    if game.Get_npc_nurse() == 364 : # 364 : 资深 | 328 : 普通
+    if call.Get_npc_nurse() == 364 : # 364 : 资深 | 328 : 普通
         # 判断是否是生产系 生产系不能在资深处补给
-        if game.Get_player_job() in ('other') :
+        if call.Get_player_job() in ('other') :
             pass
 
-    elif game.Get_npc_nurse() == 328 :
-        if game.Get_player_job() not in ('other') :
+    elif call.Get_npc_nurse() == 328 :
+        if call.Get_player_job() not in ('other') :
             pass
 
     print('执行脚本第{}行'.format(sys._getframe().f_lineno), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),'开始补给')
-    game.Get_player_hpmp()
-    if game.s_minmp < game.s_maxmp :
+    call.Get_player_hpmp()
+    if call.s_minmp < call.s_maxmp :
         # 恢复mp
         dm.moveto(245,195)
         time.sleep(0.1)
@@ -30,6 +31,7 @@ def Call_npc_nurse():
             dm.leftclick()
             while dm.Getcolor(296,320) != "336975" :
                 time.sleep(0.1)
+            time.sleep(0.2)
             dm.moveto(300, 320)
             time.sleep(0.1)
             dm.leftclick()
@@ -39,8 +41,8 @@ def Call_npc_nurse():
             dm.leftclick()
         time.sleep(0.5)
 
-    game.Get_player_hpmp()
-    if game.s_minhp < game.s_maxhp :
+    call.Get_player_hpmp()
+    if call.s_minhp < call.s_maxhp :
         # 恢复hp
         dm.moveto(245,230)
         time.sleep(0.1)
@@ -89,3 +91,43 @@ def Call_npc_nurse():
     time.sleep(0.5)
     dm.leftclick()
     print('执行脚本第{}行'.format(sys._getframe().f_lineno), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),'结束补给!')
+
+def Goto(pos_x,pos_y):
+    call.Get_player_pos()
+    d1 = {}
+    for k in range(9) :
+        x = call.mapx
+        y = call.mapy
+        x1 = x - k
+        y1 = y - 9 + k
+        offset1 = 64
+        offset2 = 48
+        posy = 23 + k * offset2
+        for i in range(0,10):
+            posx = 30 + offset1 * i
+            d1[x1,y1] = (posx,posy) 
+            x1 = x1 + 1
+            y1 = y1 + 1
+            
+    for k in range(9) :
+        x = call.mapx
+        y = call.mapy
+        x1 = x - k
+        y1 = y - 8 + k
+        offset1 = 64
+        offset2 = 48
+        posy = 23 + 24 + (offset2 * k)
+        for i in range(0,9):
+            posx = 30 + 32 + offset1 * i
+            d1[x1,y1] = (posx,posy) 
+            x1 = x1 + 1
+            y1 = y1 + 1
+
+    tag_x = pos_x
+    tag_y = pos_y
+    chick_pos_x = d1[(tag_x,tag_y)][0]
+    chick_pos_y = d1[(tag_x,tag_y)][1]
+    dm.moveto(chick_pos_x,chick_pos_y)
+    dm.leftclick()
+
+call = main()

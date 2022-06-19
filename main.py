@@ -112,7 +112,7 @@ class main():
     def Get_whois_act(self):
         '''判断是谁的回合(人物行动1 宠物行动4 结束战斗5)'''
         global whos_act
-        whos_act = dm.ReadInt(hwnd,"005A7DC4",0)
+        whos_act = dm.ReadInt(hwnd,"005A8DC4",0)
         return whos_act
 
     def Get_fight_round(self):
@@ -123,7 +123,7 @@ class main():
         '''统计怪物情况'''
         # global gw_cnt,monsters_list_front,monsters_list_back,monsters
         global is_lv1
-        monster_mess=dm.ReadString(hwnd, "005A0C17", 0, 5000).encode('gb18030').decode('big5')
+        monster_mess=dm.ReadString(hwnd, "005A0BA8", 0, 5000).encode('gb18030').decode('big5')
         monster_mess = monster_mess.split('|')
         #去掉前面两位
         del monster_mess[0:2]
@@ -244,7 +244,6 @@ class main():
 
     def Return_panel(self):
         '''按F12恢复位置'''
-        time.sleep(0.3)
         dm.keydown(17)
         time.sleep(0.05)
         dm.keypress(123)
@@ -271,13 +270,24 @@ class main():
         return talk_type
 
     def Get_npc_nurse(self):
-        nurse_type = dm.readint(hwnd,"C552F0",0)
+        nurse_type = dm.readint(hwnd,"C56420",0)
         return nurse_type
+
+    def Get_mouse_type(self):
+        self.mouse_type = dm.ReadInt(hwnd,"93911C",0)
+        return self.mouse_type
 
 
 dm = win32com.client.Dispatch('dm.dmsoft')
 time.sleep(0.1)
 hwnd = dm.GetMousePointWindow()
+print("hwnd is :" ,hwnd)
 dm_ret = dm.SetDict(0,"font.txt")
-dm_ret = dm.BindWindow(hwnd, "gdi", "windows", "windows", 0)
+dm_ret = dm.BindWindow(hwnd, "gdi", "windows", "windows", 2)
+print(dm_ret)
 game = main()
+
+# x = 0
+# y = 0
+# dm_ret = dm.FindStr(0,0,2000,2000,'鉴定',"ffffff-000000",1.0,x,y)
+# print(dm_ret)

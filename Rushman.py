@@ -10,9 +10,9 @@ def begin():
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :
             player.Get_monster_info()
-            if player.is_lv1 == 1 :
-                print('有1级怪，停止自动战斗')
-                quit()
+            # if player.is_lv1 == 1 :
+            #     print('有1级怪，停止自动战斗')
+            #     quit()
             if player.Get_whois_act() == 1 :
                 player_act()
                 while player.Get_whois_act() not in (4,5) :
@@ -59,11 +59,13 @@ def player_act():
     ic('人物行动')
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
-    dm.moveto(10 + r_pos,10 + r_pos)
+    dm.moveto(253 + r_pos,35 + r_pos)
     # 选择攻击的宠物
     chose_monster()
-    if is_qld == 1 and player.player_mp >= 20 :
-        user_skill('强力风刃魔法',2)
+    if player.gw_cnt >= 6 and player.player_mp >= summoner_qt_skill_ndmp :
+        user_skill(summoner_qt_skill,summoner_qt_skill_lv)
+    elif is_qld == 1 and player.player_mp >= summoner_ql_skill_ndmp :
+        user_skill(summoner_ql_skill,summoner_ql_skill_lv)
     elif player.player_mp >= summoner_ft_skill_ndmp :
         user_skill(summoner_ft_skill,summoner_ft_skill_lv)
     else :
@@ -72,7 +74,7 @@ def player_act():
 def pet_act(skill_name):
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
-    dm.moveto(10 + r_pos,10 + r_pos)
+    dm.moveto(253 + r_pos,35 + r_pos)
     '''宠物攻击'''
     ic('宠物攻击')
     intX = 0
@@ -85,7 +87,6 @@ def pet_act(skill_name):
             break
     color = dm.GetColor(590,57)
     if color == "93bb6c" :
-        # player.Return_panel()
         x = 0
         y = 0
         dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
@@ -102,7 +103,6 @@ def pet_act(skill_name):
     else :
         dm.rightclick()
         time.sleep(0.3)
-        # player.Return_panel()
         x = 0
         y = 0
         dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
@@ -110,7 +110,7 @@ def pet_act(skill_name):
             time.sleep(0.1)
             dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
             if x > 0 and y > 0 :
-                break
+                break 
         x = dm_ret[1]
         y = dm_ret[2]
         dm.moveto(x + 20,y + 5)
@@ -205,17 +205,23 @@ def ordinary_acct():
     time.sleep(0.5)
 
 def chick_monster():
-    # chose_monster()
-    ic(gw_x,gw_y)
+    ic(gw_pos,'点击怪物')
     dm.moveto(gw_x,gw_y)
-    time.sleep(0.1)
+    time.sleep(0.2)
+    while player.Get_mouse_type()!= 2 :
+        r_pos = random.randint(1,10)
+        dm.moveto(gw_x + r_pos,gw_y - r_pos)
+        time.sleep(0.5)
     dm.leftclick()
+    r_pos = random.randint(1,50)
+    dm.moveto(253 + r_pos,35 + r_pos)
 
 
 def chose_monster():
     '''选择怪物'''
-    global gw_x,gw_y,is_qld
+    global gw_x,gw_y,is_qld,gw_pos,acct_monster_sn
     ic(player.monsters_list_all)
+
 
     rang_list = {
                   10 : [11,12,15] ,
@@ -300,14 +306,18 @@ summoner_bh_gwcnt = 2
 summoner_bh_skill = "明镜止水"
 summoner_bh_skill_lv = 3
 summoner_bh_skill_ndmp = 22
-### 人物战斗技能设置
-summoner_ft_skill = "陨石魔法"
-summoner_ft_skill_lv = 3
-summoner_ft_skill_ndmp = 15
-### 人物群攻技能设置10
-summoner_ft_qgskill = "乱射"
-summoner_ft_qgskill_lv = 3
-summoner_ft_qgskill_ndmp = 15
+### 人物单体技能设置
+summoner_ft_skill = "火焰魔法"
+summoner_ft_skill_lv = 2
+summoner_ft_skill_ndmp = 10
+### 人物强力魔法
+summoner_ql_skill = "强力冰冻魔法"
+summoner_ql_skill_lv = 1
+summoner_ql_skill_ndmp = 10
+### 人物全体技能设置
+summoner_qt_skill = "超强冰冻魔法"
+summoner_qt_skill_lv = 1
+summoner_qt_skill_ndmp = 20
 ##  宠物保护设置
 pet_bh_rate = 0.9
 pet_bh_skill = "吸血攻击"

@@ -21,6 +21,7 @@ while 1:
 		speed = dm.ReadInt(i,"F70950",0)
 		if speed == 100 :
 			dm.WriteInt(i,"F70950",0,130)
-	time.sleep(5)
+	time.sleep(3)
+		# dm.WriteInt(i,"F70950",0,100)
 
 # a5 db a4 c6 a7 f0 c0 bb

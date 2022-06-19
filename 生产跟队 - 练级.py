@@ -6,10 +6,11 @@ import random
 def begin():
     # 自动战斗
     if player.Get_is_fight() in (1,3):
-        # ic('战斗中')
         if player.Get_whois_act() in (1,4) :
+            ic(player.Get_whois_act())
             player.Get_monster_info()
             if player.Get_whois_act() == 1 :
+                print(player.Get_whois_act())
                 player_act()
                 time.sleep(0.3)
             else : 
@@ -27,6 +28,7 @@ def begin():
 def player_act():
     '''人物行动'''
     if player.Get_fight_round() + 1 == 1 :
+        ic('人物行动', player.Get_fight_round() + 1)
         player_def()
     else :
         ordinary_acct()
