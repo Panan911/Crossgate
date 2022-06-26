@@ -44,11 +44,11 @@ def player_act():
     dm.moveto(10 + r_pos,10 + r_pos)
     if player.gw_cnt > summoner_bh_gwcnt and player.player_mp >= summoner_ft_qgskill_ndmp :
         if player.gw_cnt == 3 :
-            summoner_ft_qgskill_lv = 1
-        elif player.gw_cnt == 4 :
             summoner_ft_qgskill_lv = 2
+        elif player.gw_cnt == 4 :
+            summoner_ft_qgskill_lv = 3
         elif player.gw_cnt == 5 :
-            summoner_ft_qgskill_lv = 4
+            summoner_ft_qgskill_lv = 5
         else :
             summoner_ft_qgskill_lv = 5
         user_skill(summoner_ft_qgskill,summoner_ft_qgskill_lv)
@@ -82,7 +82,9 @@ def pet_act(skill_name):
                 break
         x = dm_ret[1]
         y = dm_ret[2]
-        gc.MovetoChick(x + 20,y + 5)
+        dm.moveto(x + 20,y + 5)
+        time.sleep(0.1)
+        dm.leftclick()
     else :
         dm.rightclick()
         time.sleep(0.3)
@@ -97,10 +99,13 @@ def pet_act(skill_name):
                 break
         x = dm_ret[1]
         y = dm_ret[2]
-        gc.MovetoChick(x + 20,y + 5)
+        dm.moveto(x + 20,y + 5)
+        time.sleep(0.1)
+        dm.leftclick()
     # 做一下延迟
-    time.sleep(0.1)
+    time.sleep(0.2)
     chick_monster()
+
 
 def user_skill(skill_name,skill_lv):
     ic('使用技能')
@@ -117,7 +122,9 @@ def user_skill(skill_name,skill_lv):
     elif color == "d4ad6a" :
         ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板未弹出,去点击技能菜单')
         r_pos = random.randint(1,5)
-        gc.MovetoChick(453 + r_pos,30 + r_pos)
+        dm.moveto(453 + r_pos,30 + r_pos)
+        time.sleep(0.1)
+        dm.leftclick()
         time.sleep(0.2)
     # 识别技能
     x = 0
@@ -128,12 +135,14 @@ def user_skill(skill_name,skill_lv):
         dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
     x = dm_ret[1]
     y = dm_ret[2]
-    r_pos = random.randint(10,20)
-    gc.MovetoChick(x + r_pos,y + 5)
+    r_pos = random.randint(1,10)
+    dm.moveto(x + r_pos,y + 5)
     time.sleep(0.1)
+    dm.leftclick()
+    time.sleep(0.3)
     # 移动一下鼠标 做一些延迟
     dm.moveto(10 + r_pos,10 + r_pos)
-    time.sleep(0.1)
+    time.sleep(0.2)
     # 选择技能等级
     x = 0
     y = 0
@@ -144,7 +153,9 @@ def user_skill(skill_name,skill_lv):
     x = dm_ret[1]
     y = dm_ret[2]
     r_pos = random.randint(1,10)
-    gc.MovetoChick(x + r_pos,y + 3)
+    dm.moveto(x + r_pos,y + 3)
+    time.sleep(0.1)
+    dm.leftclick()
     time.sleep(0.1)
     chick_monster()
 
@@ -165,7 +176,7 @@ def ordinary_acct():
 def chick_monster():
     chose_monster()
     ic(gw_pos,'点击怪物')
-    gc.MovetoChick(gw_x,gw_y)
+    dm.moveto(gw_x,gw_y)
     time.sleep(0.2)
     player.Get_mouse_type()
     chick_num = 0 # 点击满5次还没有点到就退出循环
@@ -209,12 +220,12 @@ def chose_monster():
 summoner_bh_rate = 0.8
 summoner_bh_gwcnt = 2
 summoner_bh_skill = "明镜止水"
-summoner_bh_skill_lv = 1
-summoner_bh_skill_ndmp = 10
+summoner_bh_skill_lv = 3
+summoner_bh_skill_ndmp = 22
 ### 人物战斗技能设置
-summoner_ft_skill = "乾坤一掷"
-summoner_ft_skill_lv = 1
-summoner_ft_skill_ndmp = 10
+summoner_ft_skill = "混乱攻击"
+summoner_ft_skill_lv = 5
+summoner_ft_skill_ndmp = 25
 ### 人物群攻技能设置
 summoner_ft_qgskill = "乱射"
 # summoner_ft_qgskill_lv = 3

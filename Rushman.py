@@ -3,6 +3,8 @@ import Game_call as gc
 import time
 from icecream import ic
 import random
+import sys
+
 
 def begin():
 
@@ -14,9 +16,10 @@ def begin():
             #     print('有1级怪，停止自动战斗')
             #     quit()
             if player.Get_whois_act() == 1 :
+                chose_monster()
                 player_act()
                 while player.Get_whois_act() not in (4,5) :
-                    time.sleep(0.2)
+                    time.sleep(0.1)
                     if player.Get_whois_act() == 4 :
                         break
                     else :
@@ -26,45 +29,28 @@ def begin():
                     pet_act('吸血攻击')
                 else :
                     pet_act('攻击')
-                time.sleep(0.2)
+                time.sleep(0.1)
             else :
-                time.sleep(0.3)
+                time.sleep(0.2)
     elif player.Get_nurse_window() == 1 :
         gc.Call_npc_nurse()
     elif player.Get_is_fight() not in (1,3):
         if player.Get_talk_type() == 2 and player.Get_nurse_window() == 1 : 
             gc.Call_npc_nurse()
         else :
-            time.sleep(0.5)
+            time.sleep(0.1)
     else :
-        time.sleep(1)
+        time.sleep(0.1)
 
 def player_act():
     '''人物行动'''
-    # 怪物 < 一定数量时自我保护
-    # if player.gw_cnt <= summoner_bh_gwcnt and player.player_hp/player.player_maxhp < summoner_bh_rate and player.player_mp >= summoner_bh_skill_ndmp :
-    #     ic('人物战斗保护')
-    #     user_skill(summoner_bh_skill,summoner_bh_skill_lv)
-    # # 非自我保护时怪物 > 一定数量时放群攻技能
-    # elif player.gw_cnt > summoner_bh_gwcnt and player.player_mp >= summoner_ft_qgskill_ndmp :
-    #     ic('人物群攻')
-    #     user_skill(summoner_ft_qgskill,summoner_ft_qgskill_lv)
-    # # 非自我保护时怪物 > 一定数量时放单体技能
-    # elif player.player_mp >= summoner_ft_skill_ndmp:
-    #     ic('人物技能攻击')
-    #     user_skill(summoner_ft_skill,summoner_ft_skill_lv)
-    # # 普攻
-    # else :
-    #     ordinary_acct()
-    ic('人物行动')
+    # ic('人物行动')
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(253 + r_pos,35 + r_pos)
-    # 选择攻击的宠物
-    chose_monster()
     if player.gw_cnt >= 6 and player.player_mp >= summoner_qt_skill_ndmp :
         user_skill(summoner_qt_skill,summoner_qt_skill_lv)
-    elif is_qld == 1 and player.player_mp >= summoner_ql_skill_ndmp :
+    elif player.gw_cnt in (4,5) and is_qld == 1 and player.player_mp >= summoner_ql_skill_ndmp :
         user_skill(summoner_ql_skill,summoner_ql_skill_lv)
     elif player.player_mp >= summoner_ft_skill_ndmp :
         user_skill(summoner_ft_skill,summoner_ft_skill_lv)
@@ -76,7 +62,7 @@ def pet_act(skill_name):
     r_pos = random.randint(1,20)
     dm.moveto(253 + r_pos,35 + r_pos)
     '''宠物攻击'''
-    ic('宠物攻击')
+    # ic('宠物攻击')
     intX = 0
     intY = 0
     dm_ret = dm.FindPic(0,0,2000,2000,"./pic/宠物指令.bmp","000000",0.9,0,intX,intY)
@@ -131,62 +117,39 @@ def user_skill(skill_name,skill_lv):
     while color not in ("93bb6c","d4ad6a") :
         time.sleep(0.1)
         color = dm.GetColor(453,30)
-        if color in ("93bb6c","d4ad6a") :
-            break
     if color == "93bb6c" : # 选中菜单
-        # player.Return_panel() # 恢复面板位置
-        x = 0
-        y = 0
-        dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
-        if dm_ret[0] == -1:
-            dm.rightclick()
-            time.sleep(0.05)
-            r_pos = random.randint(1,20)
-            dm.moveto(10 + r_pos, 10 + r_pos)
-            time.sleep(0.5)
-            dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
-        x = dm_ret[1]
-        y = dm_ret[2]
-        dm.moveto(x,y)
-        time.sleep(0.1)
-        dm.leftclick()
+        ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板已弹出,选择技能')
     elif color == "d4ad6a" :
-        dm.moveto(453,30)
-        time.sleep(0.1)
-        dm.leftclick()
+        ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板未弹出,去点击技能菜单')
+        r_pos = random.randint(1,5)
+        gc.MovetoChick(453 + r_pos,30 + r_pos)
         time.sleep(0.2)
-        # player.Return_panel()
-        x = 0
-        y = 0
-        dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
-        print(dm_ret)
-        if dm_ret[0] == -1:
-            dm.rightclick()
-            time.sleep(0.05)
-            dm.moveto(10 + r_pos, 10 + r_pos)
-            time.sleep(0.5)
-            dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
-        x = dm_ret[1]
-        y = dm_ret[2]
-        dm.moveto(x,y)
+    # 识别技能
+    x = 0
+    y = 0
+    dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
+    while dm_ret[0] != 0 :
         time.sleep(0.1)
-        dm.leftclick()
+        dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
+    x = dm_ret[1]
+    y = dm_ret[2]
+    r_pos = random.randint(10,20)
+    gc.MovetoChick(x + r_pos,y + 5)
+    time.sleep(0.1)
     # 移动一下鼠标 做一些延迟
-    dm.moveto(10,10)
-    time.sleep(0.2)
+    dm.moveto(10 + r_pos,10 + r_pos)
+    time.sleep(0.1)
     # 选择技能等级
     x = 0
     y = 0
     dm_ret = dm.FindStr(0,0,2000,2000,'LV{}'.format(skill_lv),"ffffff-000000",1.0,x,y)
-    while x < 0 or y < 0 :
+    while dm_ret[0] != 0 :
             time.sleep(0.1)
             dm_ret = dm.FindStr(0,0,2000,2000,'LV{}'.format(skill_lv),"ffffff-000000",1.0,x,y)
-            if x > 0 and y > 0 :
-                break
     x = dm_ret[1]
     y = dm_ret[2]
-    dm.moveto(x,y)
-    dm.leftclick()
+    r_pos = random.randint(1,10)
+    gc.MovetoChick(x + r_pos,y + 3)
     time.sleep(0.1)
     chick_monster()
 
@@ -196,7 +159,8 @@ def ordinary_acct():
     if color == "93bb6c" :
         chick_monster()
     elif color == "d4ad6a" :
-        dm.moveto(383,30)
+        r_pos = random.randint(1,5)
+        dm.moveto(383 + r_pos,30 + 3)
         time.sleep(0.1)
         dm.leftclick()
         chick_monster()
@@ -205,11 +169,12 @@ def ordinary_acct():
     time.sleep(0.5)
 
 def chick_monster():
-    ic(gw_pos,'点击怪物')
-    dm.moveto(gw_x,gw_y)
+    r_pos = random.randint(3,10)
+    dm.moveto(gw_x + r_pos,gw_y - r_pos)
     time.sleep(0.2)
     while player.Get_mouse_type()!= 2 :
-        r_pos = random.randint(1,10)
+        r_pos = random.randint(3,10)
+        print('执行脚本第{}行'.format(sys._getframe().f_lineno),gw_x + r_pos,gw_y - r_pos)
         dm.moveto(gw_x + r_pos,gw_y - r_pos)
         time.sleep(0.5)
     dm.leftclick()
@@ -247,15 +212,21 @@ def chose_monster():
                 18:[336,133],
                 19:[77,280]}
 
-    # if len(player.monsters_list_front) > 0 :
-    #     acct_monster_sn = random.choice(player.monsters_list_front)
-    # else :
-    #     acct_monster_sn = random.choice(player.monsters_list_back)
-    # gw_pos = pos_dict[acct_monster_sn]
-    # r_pos = random.randint(1,5)
-
-    is_qld = 0
-    if len(player.monsters_list_all) >= 4 :
+    if player.gw_cnt not in (4,5) :
+        if len(player.monsters_list_front) > 0 :
+            acct_monster_sn = random.choice(player.monsters_list_front)
+            gw_pos = pos_dict[acct_monster_sn]
+            gw_x = gw_pos[0]
+            gw_y = gw_pos[1]
+            print('执行脚本第{}行'.format(sys._getframe().f_lineno), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),acct_monster_sn,gw_x,gw_y)
+        else :
+            acct_monster_sn = random.choice(player.monsters_list_back)
+            gw_pos = pos_dict[acct_monster_sn]
+            gw_x = gw_pos[0]
+            gw_y = gw_pos[1]
+            print('执行脚本第{}行'.format(sys._getframe().f_lineno), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),acct_monster_sn,gw_x,gw_y)
+    else :
+        is_qld = 0
         for i in player.monsters_list_all:
             list1 = rang_list[i]
             if i in (10,11,12,15,16,17) :
@@ -267,12 +238,10 @@ def chose_monster():
                     x = pos_dict[i][0]
                     y = pos_dict[i][1]
                     gw_pos = pos_dict[i]
-                    r_pos = random.randint(1,5)
-                    gw_x = gw_pos[0] + r_pos
-                    gw_y = gw_pos[1] - r_pos
-                    print('发现强力点 :',x,y)
+                    gw_x = gw_pos[0]
+                    gw_y = gw_pos[1]
                     is_qld = 1
-            else :
+            elif i in (13,14,18,19) :
                 a1 = 1 if list1[0] in player.monsters_list_all else 0
                 a2 = 1 if list1[1] in player.monsters_list_all else 0
                 a_sum = a1 + a2
@@ -280,24 +249,28 @@ def chose_monster():
                     x = pos_dict[i][0]
                     y = pos_dict[i][1]
                     gw_pos = pos_dict[i]
-                    r_pos = random.randint(1,5)
-                    gw_x = gw_pos[0] + r_pos
-                    gw_y = gw_pos[1] - r_pos
-                    print('发现强力点 :',x,y)
+                    gw_x = gw_pos[0]
+                    gw_y = gw_pos[1]
                     is_qld = 1
-    elif len(player.monsters_list_front) > 0 :
-        acct_monster_sn = random.choice(player.monsters_list_front)
-        gw_pos = pos_dict[acct_monster_sn]
-        r_pos = random.randint(1,5)
-        gw_x = gw_pos[0] + r_pos
-        gw_y = gw_pos[1] - r_pos
-    else : 
-        acct_monster_sn = random.choice(player.monsters_list_back)
-        gw_pos = pos_dict[acct_monster_sn]
-        r_pos = random.randint(1,5)
-        gw_x = gw_pos[0] + r_pos
-        gw_y = gw_pos[1] - r_pos
 
+
+        if is_qld == 0 :
+            if len(player.monsters_list_front) > 0 :
+                print(player.monsters_list_front,len(player.monsters_list_front))
+                print('选择前排')
+                acct_monster_sn = random.choice(player.monsters_list_front)
+                gw_pos = pos_dict[acct_monster_sn]
+                gw_x = gw_pos[0]
+                gw_y = gw_pos[1]
+            else :
+                print(player.monsters_list_back,len(player.monsters_list_back))
+                print('选择后排')
+                acct_monster_sn = random.choice(player.monsters_list_back)
+                gw_pos = pos_dict[acct_monster_sn]
+                gw_x = gw_pos[0]
+                gw_y = gw_pos[1]
+    
+        print('执行脚本第{}行'.format(sys._getframe().f_lineno), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),is_qld,acct_monster_sn,gw_x,gw_y)
 
 # ----------------------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
@@ -307,17 +280,17 @@ summoner_bh_skill = "明镜止水"
 summoner_bh_skill_lv = 3
 summoner_bh_skill_ndmp = 22
 ### 人物单体技能设置
-summoner_ft_skill = "火焰魔法"
-summoner_ft_skill_lv = 2
-summoner_ft_skill_ndmp = 10
+summoner_ft_skill = "风刃魔法"
+summoner_ft_skill_lv = 3
+summoner_ft_skill_ndmp = 15
 ### 人物强力魔法
 summoner_ql_skill = "强力冰冻魔法"
-summoner_ql_skill_lv = 1
-summoner_ql_skill_ndmp = 10
+summoner_ql_skill_lv = 2
+summoner_ql_skill_ndmp = 20
 ### 人物全体技能设置
 summoner_qt_skill = "超强冰冻魔法"
-summoner_qt_skill_lv = 1
-summoner_qt_skill_ndmp = 20
+summoner_qt_skill_lv = 3
+summoner_qt_skill_ndmp = 60
 ##  宠物保护设置
 pet_bh_rate = 0.9
 pet_bh_skill = "吸血攻击"

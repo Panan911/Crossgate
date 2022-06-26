@@ -127,7 +127,12 @@ def Goto(pos_x,pos_y):
     tag_y = pos_y
     chick_pos_x = d1[(tag_x,tag_y)][0]
     chick_pos_y = d1[(tag_x,tag_y)][1]
-    dm.moveto(chick_pos_x,chick_pos_y)
+    r_pos = random.randint(1,10)
+    dm.moveto(chick_pos_x + r_pos,chick_pos_y + r_pos)
     dm.leftclick()
 
+def MovetoChick(pos_x,pos_y):
+    dm.moveto(pos_x,pos_y)
+    time.sleep(0.05)
+    dm.leftclick()
 call = main()

@@ -1,4 +1,5 @@
 from main import *
+import Game_call as gc
 import time
 from icecream import ic
 import random
@@ -64,49 +65,48 @@ def pet_act(skill_name):
 
 
 def user_skill(skill_name,skill_lv):
-    ic('使用技能',skill_name,skill_lv)
-    while dm.GetColor(453,30) not in ("93bb6c","d4ad6a"):
+    ic('使用技能')
+    # 选择技能
+    r_pos = random.randint(1,20)
+    dm.moveto(10 + r_pos, 10 + r_pos)
+    time.sleep(0.1)
+    color = dm.GetColor(453,30)
+    while color not in ("93bb6c","d4ad6a") :
         time.sleep(0.1)
         color = dm.GetColor(453,30)
-    # 选择技能
-    color = dm.GetColor(453,30)
-    if color == "93bb6c" :
-        x = 0
-        y = 0
-        dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
-        ic(dm_ret)
-        x = dm_ret[1]
-        y = dm_ret[2]
-        dm.moveto(x + 20,y + 5)
-        time.sleep(0.1)
-        dm.leftclick()
+    if color == "93bb6c" : # 选中菜单
+        ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板已弹出,选择技能')
     elif color == "d4ad6a" :
-        dm.moveto(453,30)
-        time.sleep(0.1)
-        dm.leftclick()
+        ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板未弹出,去点击技能菜单')
+        r_pos = random.randint(1,5)
+        gc.movtochlick(453 + r_pos,30 + r_pos)
         time.sleep(0.2)
-        x = 0
-        y = 0
+    # 识别技能
+    x = 0
+    y = 0
+    dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
+    while dm_ret[0] != 0 :
+        time.sleep(0.1)
         dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
-        ic(dm_ret)
-        x = dm_ret[1]
-        y = dm_ret[2]
-        dm.moveto(x + 20,y + 5)
-        time.sleep(0.1)
-        dm.leftclick()   
-    else :
-        time.sleep(0.2)
-    # 选择技能等级
-    dm.moveto(324,209)
+    x = dm_ret[1]
+    y = dm_ret[2]
+    r_pos = random.randint(1,10)
+    gc.movtochlick(x + r_pos,y + 5)
+    # 移动一下鼠标 做一些延迟
+    dm.moveto(10 + r_pos,10 + r_pos)
     time.sleep(0.1)
+    # 选择技能等级
     x = 0
     y = 0
     dm_ret = dm.FindStr(0,0,2000,2000,'LV{}'.format(skill_lv),"ffffff-000000",1.0,x,y)
-    ic(dm_ret)
+    while dm_ret[0] != 0 :
+            time.sleep(0.1)
+            dm_ret = dm.FindStr(0,0,2000,2000,'LV{}'.format(skill_lv),"ffffff-000000",1.0,x,y)
     x = dm_ret[1]
     y = dm_ret[2]
-    dm.moveto(x,y)
-    dm.leftclick()
+    r_pos = random.randint(1,10)
+    gc.movtochlick(x + r_pos,y + 3)
+    time.sleep(0.1)
     chick_monster()
 
 def ordinary_acct():
