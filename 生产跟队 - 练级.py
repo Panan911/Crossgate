@@ -156,16 +156,17 @@ def chose_monster():
     else :
         acct_monster_sn = random.choice(player.monsters_list_back)
     gw_pos = pos_dict[acct_monster_sn]
-    gw_x = gw_pos[0]
-    gw_y = gw_pos[1]
+    r_pos = random.randint(1,10)
+    gw_x = gw_pos[0] + r_pos
+    gw_y = gw_pos[1] - r_pos
 
 
 # ----------------------------------战斗参数设置---------------------------------------- #
 
 
 if __name__ == '__main__':
-    ic.configureOutput(includeContext=True) #调试信息
+    ic.configureOutput(includeContext=True) #调试
+    # player.reggame()信息
     player = main()
-    # player.reggame()
     while 1:
         begin()
