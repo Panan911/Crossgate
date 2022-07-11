@@ -15,6 +15,7 @@ def begin():
                 time.sleep(0.3)
             else : 
                 pet_act('防御')
+                chick_monster()
             r_pos = random.randint(1,20)
             dm.moveto(324 + r_pos,209 + r_pos)
     else :
@@ -24,7 +25,7 @@ def begin():
 
 def player_act():
     '''人物行动'''
-    skill_name = '洁净'
+    skill_name = '恢复'
     skill_lv = 1
     player_user_lv1(skill_name,skill_lv)
 

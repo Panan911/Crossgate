@@ -1,6 +1,6 @@
-from glob import glob
-from tkinter.tix import MAIN
-from unicodedata import name
+# from glob import glob
+# from tkinter.tix import MAIN
+# from unicodedata import name
 import win32com.client
 import time
 import ctypes
@@ -123,7 +123,7 @@ class main():
         '''统计怪物情况'''
         # global gw_cnt,monsters_list_front,monsters_list_back,monsters
         global is_lv1
-        monster_mess=dm.ReadString(hwnd, "005A0BA8", 0, 5000).encode('gb18030').decode('big5')
+        monster_mess=dm.ReadString(hwnd, "5A1BC0", 0, 5000).encode('gb18030').decode('big5')
         monster_mess = monster_mess.split('|')
         #去掉前面两位
         del monster_mess[0:2]
@@ -157,7 +157,9 @@ class main():
                     elif k % 12 == 8 :
                         monsters_list.append(int(monster_mess[j+k][1],16))
                 monsters[index] = monsters_list
+                print(monsters_list)
                 monsters_list = []
+
 
         self.is_lv1 = 0
         for i in monsters.keys():
@@ -277,6 +279,36 @@ class main():
         self.mouse_type = dm.ReadInt(hwnd,"93911C",0)
         return self.mouse_type
 
+    def arrange_package(self):
+        global package_info
+        self.package_info = {}
+        for i in range(0,20):
+            self.addr_item_name = hex(0xF76C66 + i * 0xC5C)
+            self.addr_is_item = hex(0xF76C66 - 0x2 + i * 0xC5C)
+            self.addr_item_num = hex(0xF76C66 + 0xC42 + i * 0xC5C)
+        
+            self.pkg_name = self.Change_GBK(dm.ReadString(hwnd,self.addr_item_name,0,50).encode('gb18030').decode('big5'))
+            self.is_item = dm.ReadInt(hwnd,self.addr_is_item,1)
+            self.item_num = dm.ReadInt(hwnd,self.addr_item_num,1)
+            if self.is_item == 1 :
+                self.package_info[i+1] = [self.pkg_name,self.is_item,self.item_num]
+        return self.package_info
+
+##############################
+# 字典部分
+## 怪物坐标
+global gw_pos_dict
+gw_pos_dict = { 10:[155,155],
+                11:[220,135],
+                12:[90,195],
+                13:[284,80],
+                14:[20,225],
+                15:[215,220],
+                16:[280,190],
+                17:[150,260],
+                18:[340,150],
+                19:[95,290] }
+
 
 dm = win32com.client.Dispatch('dm.dmsoft')
 time.sleep(0.1)
@@ -284,10 +316,5 @@ hwnd = dm.GetMousePointWindow()
 print("hwnd is :" ,hwnd)
 dm_ret = dm.SetDict(0,"font.txt")
 dm_ret = dm.BindWindow(hwnd, "gdi", "windows", "windows", 2)
-print(dm_ret)
-game = main()
-
-# x = 0
-# y = 0
-# dm_ret = dm.FindStr(0,0,2000,2000,'鉴定',"ffffff-000000",1.0,x,y)
-# print(dm_ret)
+# game = main()
+# print(game.Get_monster_info())

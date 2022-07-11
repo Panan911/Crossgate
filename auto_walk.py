@@ -11,15 +11,9 @@ def 来回走路():
 		# dm.moveto(426 + r_pos,330)
 		# dm.leftclick()
 		# time.sleep(1)
-<<<<<<< HEAD
-		gc.Goto(479,190)
+		gc.Goto(633,260)
 		time.sleep(1)
-		gc.Goto(479,195)
-=======
-		gc.Goto(371,190)
-		time.sleep(1)
-		gc.Goto(371,185)
->>>>>>> 2ae8223ca4bff982c5e57c924c39f004a3a9dd1f
+		gc.Goto(633,264)
 		time.sleep(1)
 
 if __name__ == '__main__':

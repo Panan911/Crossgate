@@ -1,7 +1,7 @@
 import zhconv
 
 # 繁体转gb18030
-job = "抓貓"
+job = "哥布林"
 job = job.encode('big5').decode('gb18030')
 print(job)
 

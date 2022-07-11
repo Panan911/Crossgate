@@ -52,11 +52,12 @@ def player_act():
         user_skill(summoner_qt_skill,summoner_qt_skill_lv)
     elif player.gw_cnt in (4,5) and is_qld == 1 and player.player_mp >= summoner_ql_skill_ndmp :
         user_skill(summoner_ql_skill,summoner_ql_skill_lv)
+    elif player.gw_cnt < summoner_bh_gwcnt and player.player_mp >= summoner_bh_skill_ndmp :
+        user_skill(summoner_bh_skill,summoner_bh_skill_lv)
     elif player.player_mp >= summoner_ft_skill_ndmp :
         user_skill(summoner_ft_skill,summoner_ft_skill_lv)
     else :
         ordinary_acct()
-
 def pet_act(skill_name):
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
@@ -270,27 +271,25 @@ def chose_monster():
                 gw_x = gw_pos[0]
                 gw_y = gw_pos[1]
     
-        print('执行脚本第{}行'.format(sys._getframe().f_lineno), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),is_qld,acct_monster_sn,gw_x,gw_y)
-
 # ----------------------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
-summoner_bh_rate = 0.8
-summoner_bh_gwcnt = 2
-summoner_bh_skill = "明镜止水"
-summoner_bh_skill_lv = 3
-summoner_bh_skill_ndmp = 22
+summoner_bh_rate = 0.9
+summoner_bh_gwcnt = 4
+summoner_bh_skill = "吸血魔法"
+summoner_bh_skill_lv = 1
+summoner_bh_skill_ndmp = 20
 ### 人物单体技能设置
-summoner_ft_skill = "风刃魔法"
-summoner_ft_skill_lv = 3
-summoner_ft_skill_ndmp = 15
+summoner_ft_skill = "陨石魔法"
+summoner_ft_skill_lv = 4
+summoner_ft_skill_ndmp = 20
 ### 人物强力魔法
 summoner_ql_skill = "强力冰冻魔法"
-summoner_ql_skill_lv = 2
-summoner_ql_skill_ndmp = 20
+summoner_ql_skill_lv = 3
+summoner_ql_skill_ndmp = 30
 ### 人物全体技能设置
 summoner_qt_skill = "超强冰冻魔法"
-summoner_qt_skill_lv = 3
-summoner_qt_skill_ndmp = 60
+summoner_qt_skill_lv = 4
+summoner_qt_skill_ndmp = 80
 ##  宠物保护设置
 pet_bh_rate = 0.9
 pet_bh_skill = "吸血攻击"

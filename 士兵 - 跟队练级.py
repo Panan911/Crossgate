@@ -11,9 +11,6 @@ def begin():
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :
             player.Get_monster_info()
-            if player.is_lv1 == 1 :
-                print('有1级怪，停止自动战斗')
-                quit()
             if player.Get_whois_act() == 1 :
                 player_act()
                 while player.Get_whois_act() not in (4,5):
@@ -21,6 +18,7 @@ def begin():
                     break
             if player.Get_whois_act() == 4 :
                 if player.pet_hp + 40 <= player.pet_maxhp and player.pet_mp >= 20 :
+                    print(player.pet_hp,player.pet_maxhp)
                     pet_act('吸血攻击')
                 else :
                     pet_act('攻击')
@@ -44,16 +42,8 @@ def player_act():
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(10 + r_pos,10 + r_pos)
-    if player.gw_cnt > summoner_bh_gwcnt and player.player_mp >= summoner_ft_qgskill_ndmp :
-        if player.gw_cnt == 3 :
-            summoner_ft_qgskill_lv = 1
-        elif player.gw_cnt in (4,5) :
-            summoner_ft_qgskill_lv = 3
-        elif player.gw_cnt in (6,7) :
-            summoner_ft_qgskill_lv = 5
-        else :
-            summoner_ft_qgskill_lv = 6
-        gc.use_skill(summoner_ft_qgskill,summoner_ft_qgskill_lv)
+    if player.player_mp >= summoner_ft_skill_ndmp :
+        gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
         gc.chick_monster(gw_x,gw_y)
     else :
         ordinary_acct()
@@ -160,13 +150,13 @@ summoner_bh_skill = "明镜止水"
 summoner_bh_skill_lv = 1
 summoner_bh_skill_ndmp = 10
 ### 人物战斗技能设置
-summoner_ft_skill = "乾坤一掷"
+summoner_ft_skill = "崩击"
 summoner_ft_skill_lv = 1
 summoner_ft_skill_ndmp = 10
 ### 人物群攻技能设置
-summoner_ft_qgskill = "乱射"
-summoner_ft_qgskill_lv = 5
-summoner_ft_qgskill_ndmp = 25
+# summoner_ft_qgskill = "乱射"
+# summoner_ft_qgskill_lv = 5
+# summoner_ft_qgskill_ndmp = 25
 ##  宠物保护设置
 pet_bh_rate = 0.9
 pet_bh_skill = "吸血攻击"

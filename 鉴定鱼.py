@@ -6,11 +6,11 @@ from icecream import ic
 import sys
 
 def begin():
-    game.Get_player_hpmp()
-    if game.s_minmp < 10 :
+    jd.Get_player_hpmp()
+    if jd.s_minmp < 10 :
         call_去东医()
-    game.Get_player_pos()
-    if game.mapx == 10 and game.mapy == 14 :
+    jd.Get_player_pos()
+    if jd.mapx == 10 and jd.mapy == 14 :
         is_open = dm.ReadInt(hwnd,"CFD228",0)
         is_item = dm.readint(hwnd,"F76C64",1)
         item_name = dm.ReadString(hwnd,"F76C66",0,20).encode('gb18030').decode('big5')
@@ -147,32 +147,31 @@ def pick_fish():
     dm.moveto(450 + r_pos,50 + r_pos)
     time.sleep(0.1)
     dm.rightclick()
-    time.sleep(0.5)
+    time.sleep(0.1)
+    # 点击拿鱼
+    coloe = '000000'
     while dm.Getcolor(225,320) != "346875" :
-        time.sleep(0.2)
-    time.sleep(0.3)
+        time.sleep(0.1)
+        dm.Getcolor(225,320)
     r_pos = random.randint(1,10)
-    dm.moveto(240 + r_pos, 320)
-    time.sleep(0.2)
-    dm.leftclick()
-    time.sleep(0.1)
-    dm.moveto(450 + r_pos,50 + r_pos)
-    while dm.Getcolor(295,320) != "336975" :
-        time.sleep(0.3)
-    time.sleep(0.1)
-    dm.moveto(295 + r_pos,320)
-    time.sleep(0.3)
-    dm.leftclick()
-    time.sleep(0.2)
+    call.MovetoChick(225 + r_pos, 320)
+    # 点击确定
+    coloe = '000000'
+    while dm.Getcolor(300,320) != "336975" :
+        time.sleep(0.1)
+        dm.Getcolor(300,320)
+    r_pos = random.randint(1,10)
+    call.MovetoChick(300 + r_pos, 320)
+
 
 def wait_succ():
-    game.Get_player_hpmp()
-    mp_old = game.s_minmp
+    jd.Get_player_hpmp()
+    mp_old = jd.s_minmp
     mp_new = mp_old
     while mp_new == mp_old :
         time.sleep(0.5)
-        game.Get_player_hpmp()
-        mp_new = game.s_minmp
+        jd.Get_player_hpmp()
+        mp_new = jd.s_minmp
 
 
 def drop_fish():
@@ -234,7 +233,7 @@ def redo_fish():
 def call_去东医():
     dm.WriteInt(hwnd,"F70950",0,150)
     call.Goto(3,13)
-    while game.Get_map_name() != '法兰城' :
+    while jd.Get_map_name() != '法兰城' :
         time.sleep(1)
     time.sleep(1.5)
     call.Goto(214,53)
@@ -251,7 +250,7 @@ def call_去东医():
     time.sleep(0.3)
     call.Goto(221,83)
     
-    while game.Get_map_name() != '医院' :
+    while jd.Get_map_name() != '医院' :
         time.sleep(1)
     time.sleep(0.5)
     call.Goto(11,36)
@@ -273,23 +272,25 @@ def call_去东医():
     call.Goto(12,39)
     time.sleep(1)
     call.Goto(12,42)
-    while game.Get_map_name() != '法兰城' :
+    while jd.Get_map_name() != '法兰城' :
         time.sleep(1)
     time.sleep(1)
     call.Goto(214,83)
     time.sleep(1.5)
-    call.Goto(214,75)
+    call.Goto(214,78)
     time.sleep(1.5)
-    call.Goto(214,67)
+    call.Goto(214,72)
     time.sleep(2)
-    call.Goto(214,60)
+    call.Goto(214,67)
     time.sleep(1.5)
-    call.Goto(214,53)
+    call.Goto(214,61)
+    time.sleep(1.5)
+    call.Goto(214,54)
     time.sleep(1)
     call.Goto(217,53)
     time.sleep(1)
 
-    while game.Get_map_name() != '拿潘食品店' :
+    while jd.Get_map_name() != '拿潘食品店' :
         time.sleep(1)
     call.Goto(10,14)
     time.sleep(1.5)

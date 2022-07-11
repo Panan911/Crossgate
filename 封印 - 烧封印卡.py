@@ -11,19 +11,16 @@ def begin():
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :
             player.Get_monster_info()
-            if player.is_lv1 == 1 :
-                print('有1级怪，停止自动战斗')
-                quit()
             if player.Get_whois_act() == 1 :
                 player_act()
                 while player.Get_whois_act() not in (4,5):
                     time.sleep(0.05)
                     break
             if player.Get_whois_act() == 4 :
-                if player.pet_hp + 40 <= player.pet_maxhp and player.pet_mp >= 20 :
-                    pet_act('吸血攻击')
+                if player.pet_hp / player.pet_maxhp < 0.1 and player.pet_mp >= 12 :
+                    pet_act('明镜')
                 else :
-                    pet_act('攻击')
+                    pet_act('防御')
             else :
                 time.sleep(0.3)
     elif player.Get_nurse_window() == 1 :
@@ -44,19 +41,13 @@ def player_act():
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(10 + r_pos,10 + r_pos)
-    if player.gw_cnt > summoner_bh_gwcnt and player.player_mp >= summoner_ft_qgskill_ndmp :
-        if player.gw_cnt == 3 :
-            summoner_ft_qgskill_lv = 1
-        elif player.gw_cnt in (4,5) :
-            summoner_ft_qgskill_lv = 3
-        elif player.gw_cnt in (6,7) :
-            summoner_ft_qgskill_lv = 5
-        else :
-            summoner_ft_qgskill_lv = 6
-        gc.use_skill(summoner_ft_qgskill,summoner_ft_qgskill_lv)
-        gc.chick_monster(gw_x,gw_y)
+    color = dm.GetColor(430,55)
+    if color == "d4ad6a" :
+        gc.MovetoChick(430,55)
+        drop_fengyinka()
     else :
-        ordinary_acct()
+        drop_fengyinka()
+    gc.chick_monster(gw_x,gw_y)
 
 def pet_act(skill_name):
     # 获取一下怪物信息
@@ -105,7 +96,10 @@ def pet_act(skill_name):
         gc.MovetoChick(x + 20,y + 5)
     # 做一下延迟
     time.sleep(0.1)
-    gc.chick_monster(gw_x,gw_y)
+    if skill_name == ('明镜') : 
+        pass
+    else :
+        gc.chick_monster(gw_x,gw_y)
 
 def ordinary_acct():
     ic('人物普攻')
@@ -138,6 +132,18 @@ def ordinary_acct():
 #     r_pos = random.randint(1,30)
 #     dm.moveto(253 + r_pos,35 + r_pos)
 
+def drop_fengyinka() :
+    '''丢封印卡'''
+    intX = -1
+    intY = -1
+    dm_ret = dm.FindPic(0,0,2000,2000,"./pic/封印卡.bmp","000000",0.9,0,intX,intY)
+    if dm_ret[1] > 0 :
+        dm.moveto(dm_ret[1],dm_ret[2])
+        time.sleep(0.05)
+        dm.LeftDoubleClick()
+        time.sleep(0.05)
+
+
 def chose_monster():
     '''选择怪物'''
     global gw_x,gw_y,gw_pos
@@ -153,25 +159,7 @@ def chose_monster():
 
 
 # ----------------------------------战斗参数设置---------------------------------------- #
-### 人物战斗保护设置
-summoner_bh_rate = 0.8
-summoner_bh_gwcnt = 2
-summoner_bh_skill = "明镜止水"
-summoner_bh_skill_lv = 1
-summoner_bh_skill_ndmp = 10
-### 人物战斗技能设置
-summoner_ft_skill = "乾坤一掷"
-summoner_ft_skill_lv = 1
-summoner_ft_skill_ndmp = 10
-### 人物群攻技能设置
-summoner_ft_qgskill = "乱射"
-summoner_ft_qgskill_lv = 5
-summoner_ft_qgskill_ndmp = 25
-##  宠物保护设置
-pet_bh_rate = 0.9
-pet_bh_skill = "吸血攻击"
-pet_bh_skill_ndmp = 20
-pet_bh_skill_type = 1 if pet_bh_skill in ('吸血攻击') else 2   #保护技能是否需要点击目标(1 = 需要 | 2 = 不需要)
+
 
 if __name__ == '__main__':
     ic.configureOutput(includeContext=True) #调试信息

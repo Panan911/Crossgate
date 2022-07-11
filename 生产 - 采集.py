@@ -2,11 +2,7 @@ from main import *
 import time
 from icecream import ic
 import random
-<<<<<<< HEAD
 import Game_call as gc
-=======
-from Game_call as gc
->>>>>>> 2ae8223ca4bff982c5e57c924c39f004a3a9dd1f
 
 def begin():
     # 自动战斗
@@ -19,12 +15,6 @@ def begin():
                 pet_act('防御')
             r_pos = random.randint(1,20)
             dm.moveto(324 + r_pos,209 + r_pos)
-<<<<<<< HEAD
-=======
-    elif player.Get_pkg_isfull() == 20 :
-            gc.Call_dc()
-    elif 
->>>>>>> 2ae8223ca4bff982c5e57c924c39f004a3a9dd1f
     else :
         time.sleep(1)
 
