@@ -147,17 +147,18 @@ def MovetoDoubleChick(pos_x,pos_y):
 
 def use_skill(skill_name,skill_lv):
     # 选择技能
+    ## 等待面板出现
     r_pos = random.randint(1,20)
     dm.moveto(10 + r_pos, 10 + r_pos)
-    time.sleep(0.1)
-    color = dm.GetColor(453,30)
-    while color not in ("93bb6c","d4ad6a") :
+    time.sleep(0.05)
+    x = 0
+    y = 0
+    pic = dm.FindPic(0,0,2000,2000,"./pic/玩家指令.bmp","000000",0.9,0,x,y)
+    while pic[0] == -1 :
         time.sleep(0.1)
-        color = dm.GetColor(453,30)
-    if color == "93bb6c" : # 选中菜单
-        ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板已弹出,选择技能')
-    elif color == "d4ad6a" :
-        ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板未弹出,去点击技能菜单')
+        pic = dm.FindPic(0,0,2000,2000,"./pic/玩家指令.bmp","000000",0.9,0,x,y)
+    color = dm.GetColor(453,30)
+    if color == "d4ad6a" :
         r_pos = random.randint(1,5)
         MovetoChick(453 + r_pos,30 + r_pos)
         time.sleep(0.2)

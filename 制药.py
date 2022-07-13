@@ -85,12 +85,12 @@ def find_item(item_name,item_num):
 
 if __name__ == '__main__':
 	zz = main()
-	item1 = "蝴蝶花"
-	item1_num = 15
+	item1 = "桃木"
+	item1_num = 5
 	item2 = "果梨"
-	item2_num = 5
-	item3 = "柠檬草"
-	item3_num = 10
+	item2_num = 15
+	item3 = "蝴蝶花"
+	item3_num = 15
 	# item4 = "鹿皮"
 	# item4_num = 20
 	while 1 :

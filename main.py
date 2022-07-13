@@ -123,7 +123,7 @@ class main():
         '''统计怪物情况'''
         # global gw_cnt,monsters_list_front,monsters_list_back,monsters
         global is_lv1
-        monster_mess=dm.ReadString(hwnd, "5A1BC0", 0, 5000).encode('gb18030').decode('big5')
+        monster_mess=dm.ReadString(hwnd, "5A0BA8", 0, 5000).encode('gb18030').decode('big5')
         monster_mess = monster_mess.split('|')
         #去掉前面两位
         del monster_mess[0:2]

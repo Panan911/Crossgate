@@ -14,7 +14,8 @@ def begin():
                 player_act()
                 time.sleep(0.3)
             else : 
-                pet_act('防御')
+                pet_act('护卫')
+                pet_click_player()
             r_pos = random.randint(1,20)
             dm.moveto(324 + r_pos,209 + r_pos)
     else :
@@ -24,8 +25,8 @@ def begin():
 
 def player_act():
     '''人物行动'''
-    skill_name = '气绝'
-    skill_lv = 1
+    skill_name = '强力补血'
+    skill_lv = 5
     player_user_lv1(skill_name,skill_lv)
 
 def player_user_lv1(skill_name,skill_lv):
@@ -101,6 +102,10 @@ def pet_act(skill_name):
         dm.moveto(x + 20,y + 5)
         time.sleep(0.05)
         dm.leftclick()
+
+def pet_click_player():
+    r_pos = random.randint(1,10)
+    gc.MovetoChick(475,348 - r_pos)
 
 def user_skill(skill_name,skill_lv):
     ic('使用技能')

@@ -46,11 +46,11 @@ def player_act():
     dm.moveto(10 + r_pos,10 + r_pos)
     if player.gw_cnt > summoner_bh_gwcnt and player.player_mp >= summoner_ft_qgskill_ndmp :
         if player.gw_cnt == 3 :
-            summoner_ft_qgskill_lv = 1
+            summoner_ft_qgskill_lv = 2
         elif player.gw_cnt in (4,5) :
-            summoner_ft_qgskill_lv = 3
-        elif player.gw_cnt in (6,7) :
             summoner_ft_qgskill_lv = 5
+        elif player.gw_cnt in (6,7) :
+            summoner_ft_qgskill_lv = 6
         else :
             summoner_ft_qgskill_lv = 6
         gc.use_skill(summoner_ft_qgskill,summoner_ft_qgskill_lv)

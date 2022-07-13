@@ -11,10 +11,10 @@ def 来回走路():
 		# dm.moveto(426 + r_pos,330)
 		# dm.leftclick()
 		# time.sleep(1)
-		gc.Goto(633,260)
-		time.sleep(1)
-		gc.Goto(633,264)
-		time.sleep(1)
+		gc.Goto(312,403)
+		time.sleep(0.3)
+		gc.Goto(309,403)
+		time.sleep(0.3)
 
 if __name__ == '__main__':
 	player = main()
