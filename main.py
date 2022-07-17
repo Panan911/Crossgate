@@ -121,7 +121,6 @@ class main():
 
     def Get_monster_info(self):
         '''统计怪物情况'''
-        # global gw_cnt,monsters_list_front,monsters_list_back,monsters
         global is_lv1
         monster_mess=dm.ReadString(hwnd, "5A0BA8", 0, 5000).encode('gb18030').decode('big5')
         monster_mess = monster_mess.split('|')
@@ -131,7 +130,7 @@ class main():
         #去掉最后一位
         del monster_mess[-1]
         monsters_list = []
-        monsters = {}
+        self.monsters = {}
 
         for i in monster_mess :
             j = i[0]
@@ -156,40 +155,42 @@ class main():
                     # maxmp
                     elif k % 12 == 8 :
                         monsters_list.append(int(monster_mess[j+k][1],16))
-                monsters[index] = monsters_list
-                print(monsters_list)
+                    # # 位置
+                    # elif k % 12 == 0 :
+                    #     monsters_list.append(int(monster_mess[j+k][1],16))
+                self.monsters[index] = monsters_list
+                # print(monsters)
                 monsters_list = []
 
 
         self.is_lv1 = 0
-        for i in monsters.keys():
-            lv = monsters[i][1]
+        for i in self.monsters.keys():
+            lv = self.monsters[i][1]
             if lv == 1:
                 self.is_lv1 = 1
 
         player_name = self.Get_player_name()
-        for i in monsters.keys():
-            if monsters[i][0][1:4] == player_name[1:4] :
-                player_hp,player_maxhp,player_mp,player_maxmp = monsters[i][2],monsters[i][3],monsters[i][4],monsters[i][5]
+        for i in self.monsters.keys():
+            if self.monsters[i][0][1:4] == player_name[1:4] :
+                player_hp,player_maxhp,player_mp,player_maxmp = self.monsters[i][2],self.monsters[i][3],self.monsters[i][4],self.monsters[i][5]
                 player_sn = int(i)
                 pet_sn = (player_sn) + 5 if (player_sn) < 5 else (player_sn - 5)
-                if pet_sn in monsters.keys():
-                    pet_hp,pet_maxhp,pet_mp,pet_maxmp = monsters[pet_sn][2],monsters[pet_sn][3],monsters[pet_sn][4],monsters[pet_sn][5]
+                if pet_sn in self.monsters.keys():
+                    pet_hp,pet_maxhp,pet_mp,pet_maxmp = self.monsters[pet_sn][2],self.monsters[pet_sn][3],self.monsters[pet_sn][4],self.monsters[pet_sn][5]
 
         self.monsters_list_front = []
         # 前排怪物列表
-        for i in monsters.keys() :
+        for i in self.monsters.keys() :
             if i >= 15 :
                 self.monsters_list_front.append(i)
         # 后排怪物列表
         self.monsters_list_back = []
-        for i in monsters.keys() :
+        for i in self.monsters.keys() :
             if i >= 10 and i < 15:
                 self.monsters_list_back.append(i)
         gw_cnt = len(self.monsters_list_front) + len(self.monsters_list_back)
 
         self.monsters_list_all = self.monsters_list_front + self.monsters_list_back
-
 
         mess_info = gw_cnt,player_hp,player_maxhp,player_mp,player_maxmp,pet_hp,pet_maxhp,pet_mp,pet_maxmp
         self.gw_cnt = mess_info[0]
@@ -202,10 +203,8 @@ class main():
         self.pet_mp = mess_info[7]
         self.pet_maxmp = mess_info[8]
 
-        # ic('有{}个怪物!'.format(gw_cnt))
-
         return self.gw_cnt,self.player_hp,self.player_maxhp,self.player_mp,self.player_maxmp,self.pet_hp,self.pet_maxhp,self.pet_mp,self.pet_maxmp,self.monsters_list_front,self.monsters_list_back,self.is_lv1,\
-               self.monsters_list_all
+               self.monsters_list_all,self.monsters
 
     def arrange_summoner_skill(self):
         global summoner_spell_dict,summoner_skill_name,summoner_skill_index,summoner_skill_level
@@ -237,7 +236,7 @@ class main():
             MpCost = LevelCostBase + Offset * i + LevelOffset * Level
             MpCost = hex(MpCost)
             MpCost = dm.ReadInt(hwnd,MpCost,0)
-            print(Name,Id,Level+1,MpCost)
+            # print(Name,Id,Level+1,MpCost)
 
 ######################################其他
     def Change_GBK(self,string) :
@@ -317,4 +316,5 @@ print("hwnd is :" ,hwnd)
 dm_ret = dm.SetDict(0,"font.txt")
 dm_ret = dm.BindWindow(hwnd, "gdi", "windows", "windows", 2)
 # game = main()
-# print(game.Get_monster_info())
+# game.arrange_package()
+# print(len(game.package_info))

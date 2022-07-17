@@ -30,7 +30,7 @@ def choice_all():
 	for i,k in item_pos.items():
 		x = k[0]
 		y = k[1]
-		gc.MovetoDoubleChick(x,y)
+		gc.MovetoDoubleClick(x,y)
 
 
 

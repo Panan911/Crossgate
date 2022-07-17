@@ -14,20 +14,36 @@ def begin():
                 player_act()
                 time.sleep(0.3)
             else : 
-                pet_act('护卫')
-                pet_click_player()
-            r_pos = random.randint(1,20)
-            dm.moveto(324 + r_pos,209 + r_pos)
+                if player.gw_cnt > 1 :
+                    pet_act('攻击')
+                    chick_monster()
+                else :
+                    pet_act('护卫')
+                    pet_click_player()
+            # r_pos = random.randint(1,20)
+            # dm.moveto(324 + r_pos,209 + r_pos)
     else :
         # ic('未在战斗')
         pass
 
 
 def player_act():
-    '''人物行动'''
-    skill_name = '强力补血'
-    skill_lv = 5
-    player_user_lv1(skill_name,skill_lv)
+    ic('人物行动')
+    # 获取战斗信息
+    if player.player_hp > 500 and player.player_mp >= summoner_ft_skill_ndmp:
+        gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
+        r_pos = random.randint(5,10)
+        gc.MovetoChick(412,324 - r_pos) # 寵物位置
+    elif player.player_hp < 500 and player.player_mp >= summoner_bh_skill_ndmp :
+        gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
+        r_pos = random.randint(5,10)
+        gc.MovetoChick(475,348 - r_pos) # 人物位置
+    elif player.pet_hp < 500 and player.player_mp >= summoner_bh_skill_ndmp :
+        gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
+        r_pos = random.randint(5,10)
+        gc.MovetoChick(412,324 - r_pos) # 寵物位置
+    else :
+        ordinary_acct()
 
 def player_user_lv1(skill_name,skill_lv):
     r_pos = random.randint(1,20)
@@ -183,28 +199,38 @@ def chick_monster():
 
 def chose_monster():
     '''选择怪物'''
-    global gw_x,gw_y
-    pos_dict = {10:[145,153],
-                11:[211,115],
-                12:[85,185],
-                13:[284,80],
-                14:[20,225],
-                15:[205,208],
-                16:[271,170],
-                17:[143,240],
-                18:[336,133],
-                19:[77,280]}
+    global gw_x,gw_y,gw_pos
     if len(player.monsters_list_front) > 0 :
         acct_monster_sn = random.choice(player.monsters_list_front)
     else :
         acct_monster_sn = random.choice(player.monsters_list_back)
-    gw_pos = pos_dict[acct_monster_sn]
-    r_pos = random.randint(1,10)
+    gw_pos = gw_pos_dict[acct_monster_sn]
+    r_pos = random.randint(1,3)
     gw_x = gw_pos[0] + r_pos
+    r_pos = random.randint(1,10)
     gw_y = gw_pos[1] - r_pos
 
 
 # ----------------------------------战斗参数设置---------------------------------------- #
+### 人物战斗保护设置
+summoner_bh_rate = 0.8
+summoner_bh_gwcnt = 2
+summoner_bh_skill = "补血"
+summoner_bh_skill_lv = 4
+summoner_bh_skill_ndmp = 60
+### 人物战斗技能设置
+summoner_ft_skill = "洁净"
+summoner_ft_skill_lv = 3
+summoner_ft_skill_ndmp = 40
+### 人物群攻技能设置
+summoner_ft_qgskill = "乱射"
+summoner_ft_qgskill_lv = 5
+summoner_ft_qgskill_ndmp = 25
+##  宠物保护设置
+pet_bh_rate = 0.9
+pet_bh_skill = "吸血攻击"
+pet_bh_skill_ndmp = 20
+pet_bh_skill_type = 1 if pet_bh_skill in ('吸血攻击') else 2   #保护技能是否需要点击目标(1 = 需要 | 2 = 不需要)
 
 
 if __name__ == '__main__':

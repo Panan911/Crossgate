@@ -123,7 +123,7 @@ def user_skill(skill_name,skill_lv):
     elif color == "d4ad6a" :
         ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板未弹出,去点击技能菜单')
         r_pos = random.randint(1,5)
-        gc.MovetoChick(453 + r_pos,30 + r_pos)
+        gc.MovetoClick(453 + r_pos,30 + r_pos)
         time.sleep(0.2)
     # 识别技能
     x = 0
@@ -135,7 +135,7 @@ def user_skill(skill_name,skill_lv):
     x = dm_ret[1]
     y = dm_ret[2]
     r_pos = random.randint(10,20)
-    gc.MovetoChick(x + r_pos,y + 5)
+    gc.MovetoClick(x + r_pos,y + 5)
     time.sleep(0.1)
     # 移动一下鼠标 做一些延迟
     dm.moveto(10 + r_pos,10 + r_pos)
@@ -150,7 +150,7 @@ def user_skill(skill_name,skill_lv):
     x = dm_ret[1]
     y = dm_ret[2]
     r_pos = random.randint(1,10)
-    gc.MovetoChick(x + r_pos,y + 3)
+    gc.MovetoClick(x + r_pos,y + 3)
     time.sleep(0.1)
     chick_monster()
 
@@ -276,7 +276,7 @@ def chose_monster():
 summoner_bh_rate = 0.9
 summoner_bh_gwcnt = 4
 summoner_bh_skill = "吸血魔法"
-summoner_bh_skill_lv = 1
+summoner_bh_skill_lv = 2
 summoner_bh_skill_ndmp = 20
 ### 人物单体技能设置
 summoner_ft_skill = "陨石魔法"

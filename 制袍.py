@@ -11,24 +11,34 @@ def begin():
 		item_x = find_item(item1,item1_num)[0]
 		item_y = find_item(item1,item1_num)[1]
 		r_pos = random.randint(5,15)
-		gc.MovetoDoubleChick(item_x + r_pos,item_y + r_pos)
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
 		# 寻找item2
 		item_x = find_item(item2,item2_num)[0]
 		item_y = find_item(item2,item2_num)[1]
 		r_pos = random.randint(5,15)
-		gc.MovetoDoubleChick(item_x + r_pos,item_y + r_pos)
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
 		# 寻找item3
 		item_x = find_item(item3,item3_num)[0]
 		item_y = find_item(item3,item3_num)[1]
 		r_pos = random.randint(5,15)
-		gc.MovetoDoubleChick(item_x + r_pos,item_y + r_pos)
-
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
+		# 寻找item4
+		item_x = find_item(item4,item4_num)[0]
+		item_y = find_item(item4,item4_num)[1]
+		r_pos = random.randint(5,15)
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
+		# 寻找item5
+		item_x = find_item(item5,item5_num)[0]
+		item_y = find_item(item5,item5_num)[1]
+		r_pos = random.randint(5,15)
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
+		time.sleep(0.3)
 		x = 0
 		y = 0
 		dm_ret = dm.FindPic(0,0,2000,2000,"./pic/执行.bmp","000000",0.9,0,x,y)
 		x = dm_ret[1]
 		y = dm_ret[2]
-		gc.MovetoChick(x,y)
+		gc.MovetoClick(x,y)
 		mp_now = zz.s_minmp
 		time.sleep(1)
 		mp_new = mp_now
@@ -40,11 +50,12 @@ def begin():
 			mp_new = zz.s_minmp
 		x = 0
 		y = 0
+		time.sleep(0.1)
 		dm_ret = dm.FindPic(0,0,2000,2000,"./pic/重试.bmp","000000",0.9,0,x,y)
 		x = dm_ret[1]
 		y = dm_ret[2]
 		time.sleep(0.05)
-		gc.MovetoChick(x,y)
+		gc.MovetoClick(x,y)
 	else :
 		print('mp不够了')
 		quit()
@@ -76,12 +87,16 @@ def find_item(item_name,item_num):
 
 if __name__ == '__main__':
 	zz = main()
-	item1 = "鹿皮"
-	item1_num = 20
-	item2 = "麻布"
-	item2_num = 4
-	item3 = "印度轻木"
-	item3_num = 10
+	item1 = "赤松"
+	item1_num = 10
+	item2 = "白金条"
+	item2_num = 5
+	item3 = "细线"
+	item3_num = 6
+	item4 = "绵"
+	item4_num = 20
+	item5 = "鹿皮"
+	item5_num = 20
 
 	while 1 :
 		begin()

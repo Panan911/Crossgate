@@ -92,6 +92,17 @@ def Call_npc_nurse():
     dm.leftclick()
     print('执行脚本第{}行'.format(sys._getframe().f_lineno), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),'结束补给!')
 
+def auto_walk(pos_x,pos_y):
+    while call.Get_is_fight() not in (1,3) :
+        x = pos_x
+        y = pos_y
+        Goto(x,y)
+        print(x,y)
+        time.sleep(0.8)
+        Goto(x + 5,y)
+        print(x + 5,y)
+        time.sleep(0.8)
+
 def Goto(pos_x,pos_y):
     '''去某个坐标'''
     call.Get_player_pos()
@@ -128,17 +139,16 @@ def Goto(pos_x,pos_y):
     chick_pos_y = d1[(tag_x,tag_y)][1]
     r_pos = random.randint(1,10)
     dm.moveto(chick_pos_x + r_pos,chick_pos_y + r_pos)
-    print('点击坐标为 : {},{}'.format(chick_pos_x + r_pos,chick_pos_y + r_pos))
     dm.leftclick()
 
-def MovetoChick(pos_x,pos_y):
+def MovetoClick(pos_x,pos_y):
     '''移动并且点击'''
     dm.moveto(pos_x,pos_y)
     time.sleep(0.05)
     dm.leftclick()
     time.sleep(0.05)
 
-def MovetoDoubleChick(pos_x,pos_y):
+def MovetoDoubleClick(pos_x,pos_y):
     '''移动并且点击'''
     dm.moveto(pos_x,pos_y)
     time.sleep(0.05)
@@ -160,7 +170,7 @@ def use_skill(skill_name,skill_lv):
     color = dm.GetColor(453,30)
     if color == "d4ad6a" :
         r_pos = random.randint(1,5)
-        MovetoChick(453 + r_pos,30 + r_pos)
+        MovetoClick(453 + r_pos,30 + r_pos)
         time.sleep(0.2)
     # 识别技能
     x = 0
@@ -172,7 +182,7 @@ def use_skill(skill_name,skill_lv):
     x = dm_ret[1]
     y = dm_ret[2]
     r_pos = random.randint(10,20)
-    MovetoChick(x + r_pos,y + 5)
+    MovetoClick(x + r_pos,y + 5)
     time.sleep(0.1)
     # 移动一下鼠标 做一些延迟
     dm.moveto(10 + r_pos,10 + r_pos)
@@ -187,24 +197,26 @@ def use_skill(skill_name,skill_lv):
     x = dm_ret[1]
     y = dm_ret[2]
     r_pos = random.randint(1,10)
-    MovetoChick(x + r_pos,y + 3)
+    MovetoClick(x + r_pos,y + 3)
     time.sleep(0.1)
+
+def ordinary_acct(gwpos_x,gwpos_y):
+    ic('人物普攻')
+    gw_x = gwpos_x
+    gw_y = gwpos_y
+    color = dm.GetColor(383,30)
+    if color == "93bb6c" :
+        chick_monster(gw_x,gw_y)
+    elif color == "d4ad6a" :
+        r_pos = random.randint(1,5)
+        dm.moveto(383 + r_pos,30 + 3)
+        time.sleep(0.1)
+        dm.leftclick()
+        chick_monster(gw_x,gw_y)
 
 def chick_monster(gw_x,gw_y):
     '''点击怪物'''
-    MovetoChick(gw_x,gw_y)
-    # time.sleep(0.2)
-    # call.Get_mouse_type()
-    # chick_num = 0 # 点击满5次还没有点到就退出循环
-    # while call.Get_mouse_type()!= 2 :
-    #     r_pos = random.randint(1,10)
-    #     dm.moveto(gw_x + r_pos,gw_y - r_pos)
-    #     time.sleep(0.1)
-    #     call.Get_mouse_type()
-    #     chick_num += 1
-    #     if chick_num > 5:
-    #         break
-    # dm.leftclick()
+    MovetoClick(gw_x,gw_y)
     r_pos = random.randint(1,30)
     dm.moveto(253 + r_pos,35 + r_pos)
 

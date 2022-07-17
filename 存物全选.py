@@ -32,8 +32,8 @@ def choice_all():
 		y = k[1]
 		dm.keydown(17)
 		time.sleep(0.1)
-		gc.MovetoDoubleChick(x,y)
-		time.sleep(0.3)
+		gc.MovetoDoubleClick(x,y)
+		time.sleep(0.2)
 
 
 

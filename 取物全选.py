@@ -33,7 +33,7 @@ def choice_all():
 		dm.keydown(17)
 		time.sleep(0.1)
 		gc.MovetoDoubleChick(x,y)
-		time.sleep(0.2)
+		time.sleep(0.3)
 
 if __name__ == '__main__':
 	choice_all()

@@ -11,6 +11,9 @@ def begin():
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :
             player.Get_monster_info()
+            if player.is_lv1 == 1 :
+                print('有1级怪，停止自动战斗')
+                quit()
             if player.Get_whois_act() == 1 :
                 player_act()
                 while player.Get_whois_act() not in (4,5):
@@ -150,8 +153,8 @@ summoner_bh_skill = "明镜止水"
 summoner_bh_skill_lv = 1
 summoner_bh_skill_ndmp = 10
 ### 人物战斗技能设置
-summoner_ft_skill = "崩击"
-summoner_ft_skill_lv = 1
+summoner_ft_skill = "气功弹"
+summoner_ft_skill_lv = 2
 summoner_ft_skill_ndmp = 10
 ### 人物群攻技能设置
 # summoner_ft_qgskill = "乱射"
