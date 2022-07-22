@@ -11,9 +11,9 @@ def begin():
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :
             player.Get_monster_info()
-            if player.is_lv1 == 1 :
-                print('有1级怪，停止自动战斗')
-                quit()
+            # if player.is_lv1 == 1 :
+            #     print('有1级怪，停止自动战斗')
+            #     quit()
             if player.Get_whois_act() == 1 :
                 # 人物
                 player_act()
@@ -22,12 +22,12 @@ def begin():
                     break
             if player.Get_whois_act() == 4 :
                 # 宠物
-                # if player.pet_hp + 40 <= player.pet_maxhp and player.pet_mp >= 20 :
-                #     pet_act('吸血攻击')
-                # else :
-                pet_act('攻击')
+                if player.pet_hp + 40 <= player.pet_maxhp and player.pet_mp >= 20 :
+                    pet_act('吸血攻击')
+                else :
+                    pet_act('攻击')
             else :
-                time.sleep(0.3)
+                time.sleep(0.1)
     elif player.Get_nurse_window() == 1 :
         gc.Call_npc_nurse()
     elif player.Get_is_fight() not in (1,3):
@@ -40,13 +40,18 @@ def begin():
 
 def player_act():
     '''人物行动'''
-    ic('人物行动')
     # 获取战斗信息
     chose_monster()
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(10 + r_pos,10 + r_pos)
-    ordinary_acct()
+    if player.gw_cnt <= summoner_bh_gwcnt and player.player_hp / player.player_maxhp <= summoner_bh_rate and player.player_mp >= summoner_bh_skill_ndmp :
+        gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
+    elif player.player_mp >= summoner_ft_skill_ndmp :
+        gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
+        gc.chick_monster(gw_x,gw_y)
+    else :
+        gc.ordinary_acct(gw_x,gw_y)
 
 def pet_act(skill_name):
     # 获取一下怪物信息
@@ -97,37 +102,6 @@ def pet_act(skill_name):
     time.sleep(0.1)
     gc.chick_monster(gw_x,gw_y)
 
-def ordinary_acct():
-    ic('人物普攻')
-    color = dm.GetColor(383,30)
-    if color == "93bb6c" :
-        gc.chick_monster(gw_x,gw_y)
-    elif color == "d4ad6a" :
-        r_pos = random.randint(1,10)
-        gc.MovetoClick(380 + r_pos,30)
-        gc.chick_monster(gw_x,gw_y)
-    else :
-        time.sleep(0.2)
-    time.sleep(0.3)
-
-# def chick_monster():
-#     ic(gw_pos,'点击怪物')
-#     gc.MovetoClick(gw_x,gw_y)
-#     time.sleep(0.2)
-#     player.Get_mouse_type()
-#     chick_num = 0 # 点击满5次还没有点到就退出循环
-#     while player.Get_mouse_type()!= 2 :
-#         r_pos = random.randint(1,10)
-#         dm.moveto(gw_x + r_pos,gw_y - r_pos)
-#         time.sleep(0.1)
-#         player.Get_mouse_type()
-#         chick_num += 1
-#         if chick_num > 5:
-#             break
-#     dm.leftclick()
-#     r_pos = random.randint(1,30)
-#     dm.moveto(253 + r_pos,35 + r_pos)
-
 def chose_monster():
     '''选择怪物'''
     global gw_x,gw_y,gw_pos
@@ -145,12 +119,12 @@ def chose_monster():
 # ----------------------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
 summoner_bh_rate = 0.8
-summoner_bh_gwcnt = 2
-summoner_bh_skill = "明镜止水"
+summoner_bh_gwcnt = 3
+summoner_bh_skill = "明镜"
 summoner_bh_skill_lv = 1
 summoner_bh_skill_ndmp = 10
 ### 人物战斗技能设置
-summoner_ft_skill = "乾坤一掷"
+summoner_ft_skill = "因果报应"
 summoner_ft_skill_lv = 1
 summoner_ft_skill_ndmp = 10
 ### 人物群攻技能设置

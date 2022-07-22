@@ -13,9 +13,20 @@ def begin():
         player.Get_player_hpmp()
     # 回去补给
     if player.Get_is_fight() not in (1,3) and (player.s_minmp < 100 or player.s_minhp < 100) and player.Get_map_name() == '莎莲娜':
+        print('没魔了，回城补给')
+        while player.Get_player_moving() != 0 :
+            time.sleep(0.5)
         gc.MovetoClick(318,237)
         time.sleep(0.5)
         call_goto_hospital()
+        gc.Call_npc_nurse()
+        if len(player.arrange_package()) >= 10 :
+            print(len(player.arrange_package()))
+            time.sleep(0.5)
+            call_goto_sell()
+            call_goto_技能点()
+    if player.Get_is_fight() not in (1,3) and player.Get_player_pos()[0] == 33 and player.Get_player_pos()[1] == 48 :  
+        call_goto_技能点()
     
     # 自动战斗
     if player.Get_is_fight() in (1,3):
@@ -34,7 +45,7 @@ def begin():
                     else :
                         break
             elif player.Get_whois_act() == 4 :
-                if player.pet_hp / player.pet_maxhp < pet_bh_rate and player.pet_mp >= 75 :
+                if player.pet_hp / player.pet_maxhp < pet_bh_rate and player.pet_mp >= pet_bh_skill_ndmp :
                     pet_act('明镜')
                 else :
                     pet_act('攻击')
@@ -75,7 +86,7 @@ def player_act():
         gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
         gc.chick_monster(gw_x,gw_y)
     else :
-        gc.ordinary_acct()
+        gc.ordinary_acct(gw_x,gw_y)
 
 def pet_act(skill_name):
     # 调整一下鼠标位置
@@ -275,11 +286,113 @@ def call_goto_hospital():
     gc.Goto(33,48)
     time.sleep(1.5)
     dm.moveto(162,105) # 右键资深医生
-    time.sleep(1)
+    time.sleep(0.1)
+    dm.rightclick()
+    color = ""
+    color = dm.Getcolor(294,319)
+    while color != '346875' :
+        time.sleep(0.1)
+        color = dm.Getcolor(294,319)
     # gc.Call_npc_nurse()
 
+def call_goto_技能点():
+    gc.Goto(39,51)
+    time.sleep(1.5)
+    gc.Goto(39,59)
+    time.sleep(2)
+    while player.Get_map_name() != '魔法大学' :
+        time.sleep(2)
+    time.sleep(1)
+    gc.Goto(74,100)
+    time.sleep(2)
+    gc.Goto(74,108)
+    time.sleep(2)
+    gc.Goto(74,116)
+    time.sleep(2)
+    gc.Goto(74,122)
+    time.sleep(2)
+    gc.Goto(72,125)
+    time.sleep(0.8)
+    gc.Goto(74,128)
+    time.sleep(1)
+    gc.Goto(75,135)
+    time.sleep(1.5)
+    gc.Goto(75,142)
+    time.sleep(1.5)
+    gc.Goto(75,149)
+    time.sleep(1.5)
+    gc.Goto(75,153)
+    time.sleep(1.5)
+    gc.Goto(75,160)
+    time.sleep(1.5)
+    gc.Goto(75,166)
+    time.sleep(1.5)
+    gc.Goto(75,172)
+    time.sleep(2)
+    while player.Get_map_name() != '莎莲娜' :
+        time.sleep(2)
+    time.sleep(1)
+    gc.Goto(116,102)
+    time.sleep(0.2)
 
-
+def call_goto_sell():
+    '''去卖东西'''
+    gc.Goto(40,49)
+    time.sleep(1.5)
+    gc.Goto(46,49)
+    time.sleep(1.5)
+    gc.Goto(50,46)
+    time.sleep(1.5)
+    gc.Goto(51,43)
+    time.sleep(1.5)
+    while player.Get_map_name() != '技术室' :
+        time.sleep(2)
+    time.sleep(1)
+    gc.Goto(8,12)
+    time.sleep(1.5)
+    gc.Goto(14,9)
+    time.sleep(1.5)
+    gc.Goto(20,10)
+    time.sleep(1.5)
+    time.sleep(0.5)
+    dm.moveto(412,352)
+    time.sleep(0.05)
+    dm.rightclick()
+    color = ""
+    color = dm.GetColor(368,253)
+    while color != "000001" :
+        time.sleep(0.5)
+        color = dm.GetColor(368,253)
+    gc.MovetoClick(315,264)
+    color = ""
+    color = dm.GetColor(484,372)
+    while color != "346875" :
+        time.sleep(0.5)
+        color = dm.GetColor(484,372)
+    gc.MovetoClick(388,373)
+    time.sleep(0.5)
+    gc.MovetoClick(322,371)
+    time.sleep(0.5)
+    gc.MovetoClick(322,371)
+    time.sleep(0.5)
+    gc.MovetoClick(120,390)
+    time.sleep(0.5)
+    gc.Goto(23,15)
+    time.sleep(1.5)
+    gc.Goto(23,18)
+    while player.Get_map_name() != '魔法大学内部' :
+        time.sleep(2)
+    time.sleep(1)
+    gc.Goto(63,48)
+    time.sleep(1.5)
+    gc.Goto(56,49)
+    time.sleep(1.5)
+    gc.Goto(51,49)
+    time.sleep(1.5)
+    gc.Goto(45,49)
+    time.sleep(1.5)
+    gc.Goto(40,51)
+    time.sleep(1.5)
 # ----------------------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
 summoner_bh_rate = 0.9
@@ -312,5 +425,6 @@ if __name__ == '__main__':
     player = main()
     pos_x = player.Get_player_pos()[0]
     pos_y = player.Get_player_pos()[1]
-    while 1:    
-        begin()
+    # while 1:    
+    #     begin()
+    call_goto_sell()

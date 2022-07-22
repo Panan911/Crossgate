@@ -25,10 +25,11 @@ def begin():
                     else :
                         break
             elif player.Get_whois_act() == 4 :
-                if player.pet_hp + 40 <= player.pet_maxhp and player.pet_mp >= 20 :
-                    pet_act('吸血攻击')
+                if player.pet_hp / player.pet_maxhp <= pet_bh_rate and player.pet_mp >= pet_bh_skill_ndmp :
+                    pet_act(pet_bh_skill)
                 else :
                     pet_act('攻击')
+                    gc.chick_monster(gw_x,gw_y)
                 time.sleep(0.1)
             else :
                 time.sleep(0.2)
@@ -48,16 +49,25 @@ def player_act():
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(253 + r_pos,35 + r_pos)
+    # 怪物数量 >= 某个值，群攻魔法值足够，使用群攻技能
     if player.gw_cnt >= 6 and player.player_mp >= summoner_qt_skill_ndmp :
-        user_skill(summoner_qt_skill,summoner_qt_skill_lv)
+        gc.use_skill(summoner_qt_skill,summoner_qt_skill_lv)
+        gc.chick_monster(gw_x,gw_y)
+    # 怪物数量在某个阈值内，并且有强力点，强力技能魔法足够，使用强力魔法技能：
     elif player.gw_cnt in (4,5) and is_qld == 1 and player.player_mp >= summoner_ql_skill_ndmp :
-        user_skill(summoner_ql_skill,summoner_ql_skill_lv)
-    elif player.gw_cnt < summoner_bh_gwcnt and player.player_mp >= summoner_bh_skill_ndmp :
-        user_skill(summoner_bh_skill,summoner_bh_skill_lv)
+        gc.use_skill(summoner_ql_skill,summoner_ql_skill_lv)
+        gc.chick_monster(gw_x,gw_y)
+    # 怪物数量 <= 某个数值，怪物保护魔法足够，使用人物保护技能
+    elif player.gw_cnt <= summoner_bh_gwcnt and player.player_mp >= summoner_bh_skill_ndmp and player.player_hp / player.player_maxhp < 0.8 :
+        gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
+        gc.chick_monster(gw_x,gw_y)
+    # 使用单体技能
     elif player.player_mp >= summoner_ft_skill_ndmp :
-        user_skill(summoner_ft_skill,summoner_ft_skill_lv)
+        gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
+        gc.chick_monster(gw_x,gw_y)
     else :
-        ordinary_acct()
+        gc.ordinary_acct(gw_x,gw_y)
+
 def pet_act(skill_name):
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
@@ -105,8 +115,6 @@ def pet_act(skill_name):
         dm.leftclick()
     # 做一下延迟
     time.sleep(0.5)
-    chick_monster()
-
 
 def user_skill(skill_name,skill_lv):
     ic('使用技能')
@@ -152,35 +160,22 @@ def user_skill(skill_name,skill_lv):
     r_pos = random.randint(1,10)
     gc.MovetoClick(x + r_pos,y + 3)
     time.sleep(0.1)
-    chick_monster()
+    gc.chick_monster(gw_x,gw_y)
 
 def ordinary_acct():
     ic('人物普攻')
     color = dm.GetColor(383,30)
     if color == "93bb6c" :
-        chick_monster()
+        gc.chick_monster(gw_x,gw_y)
     elif color == "d4ad6a" :
         r_pos = random.randint(1,5)
         dm.moveto(383 + r_pos,30 + 3)
         time.sleep(0.1)
         dm.leftclick()
-        chick_monster()
+        gc.chick_monster(gw_x,gw_y)
     else :
         time.sleep(0.5)
     time.sleep(0.5)
-
-def chick_monster():
-    r_pos = random.randint(3,10)
-    dm.moveto(gw_x + r_pos,gw_y - r_pos)
-    time.sleep(0.2)
-    while player.Get_mouse_type()!= 2 :
-        r_pos = random.randint(3,10)
-        print('执行脚本第{}行'.format(sys._getframe().f_lineno),gw_x + r_pos,gw_y - r_pos)
-        dm.moveto(gw_x + r_pos,gw_y - r_pos)
-        time.sleep(0.5)
-    dm.leftclick()
-    r_pos = random.randint(1,50)
-    dm.moveto(253 + r_pos,35 + r_pos)
 
 
 def chose_monster():
@@ -271,13 +266,14 @@ def chose_monster():
                 gw_x = gw_pos[0]
                 gw_y = gw_pos[1]
     
+
 # ----------------------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
-summoner_bh_rate = 0.9
+summoner_bh_rate = 0.8
 summoner_bh_gwcnt = 4
 summoner_bh_skill = "吸血魔法"
-summoner_bh_skill_lv = 2
-summoner_bh_skill_ndmp = 20
+summoner_bh_skill_lv = 3
+summoner_bh_skill_ndmp = 30
 ### 人物单体技能设置
 summoner_ft_skill = "陨石魔法"
 summoner_ft_skill_lv = 4
@@ -287,13 +283,13 @@ summoner_ql_skill = "强力冰冻魔法"
 summoner_ql_skill_lv = 3
 summoner_ql_skill_ndmp = 30
 ### 人物全体技能设置
-summoner_qt_skill = "超强冰冻魔法"
-summoner_qt_skill_lv = 4
-summoner_qt_skill_ndmp = 80
+summoner_qt_skill = "超强风刃魔法"
+summoner_qt_skill_lv = 3
+summoner_qt_skill_ndmp = 60
 ##  宠物保护设置
-pet_bh_rate = 0.9
-pet_bh_skill = "吸血攻击"
-pet_bh_skill_ndmp = 20
+pet_bh_rate = 0.8
+pet_bh_skill = "明镜"
+pet_bh_skill_ndmp = 75
 pet_bh_skill_type = 1 if pet_bh_skill in ('吸血攻击') else 2   #保护技能是否需要点击目标(1 = 需要 | 2 = 不需要)
 
 if __name__ == '__main__':

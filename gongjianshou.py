@@ -49,9 +49,9 @@ def player_act():
         if player.gw_cnt == 3 :
             summoner_ft_qgskill_lv = 2
         elif player.gw_cnt in (4,5) :
-            summoner_ft_qgskill_lv = 4
+            summoner_ft_qgskill_lv = 5
         elif player.gw_cnt in (6,7) :
-            summoner_ft_qgskill_lv = 6
+            summoner_ft_qgskill_lv = 7
         else :
             summoner_ft_qgskill_lv = 7
         gc.use_skill(summoner_ft_qgskill,summoner_ft_qgskill_lv)

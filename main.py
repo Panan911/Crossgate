@@ -73,13 +73,13 @@ class main():
     
     def Get_player_moving(self):
         '''人物是否正在移动'''
-        global is_moving
-        is_moving = dm.ReadInt(hwnd,"0055CEA8",0)
-        if is_moving != 65535 :
-            is_moving = 1
+        # global is_moving
+        self.is_moving = dm.ReadInt(hwnd,"0055CEA8",0)
+        if self.is_moving != 65535 :
+            self.is_moving = 1
         else :
-            is_moving = 0
-        return is_moving
+            self.is_moving = 0
+        return self.is_moving
 
     def Get_player_pos(self):
         '''人物坐标'''
