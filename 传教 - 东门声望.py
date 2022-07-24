@@ -6,25 +6,43 @@ import random
 import sys
 
 def begin():
+    player.Get_player_hpmp()
+    while player.Get_is_fight() not in (1,3) and player.s_minmp >= 50 and player.Get_map_name() == '莎莲娜':
+        gc.auto_walk(181,163)
+        player.Get_player_hpmp()
+    # 回去补给
+    if player.Get_is_fight() not in (1,3) and (player.s_minmp < 50 or player.s_minhp < 100) and player.Get_map_name() == '莎莲娜':
+        print('没魔了，回城补给')
+        while player.Get_player_moving() != 0 :
+            time.sleep(0.5)
+        gc.MovetoClick(318,237)
+        time.sleep(0.5)
+        call_goto_hospital()
+        gc.Call_npc_nurse()
+        if len(player.arrange_package()) >= 18 :
+            print(len(player.arrange_package()))
+            print('石头满了')
+    if player.Get_is_fight() not in (1,3) and player.Get_player_pos()[0] == 14 and player.Get_player_pos()[1] == 10 :  
+        time.sleep(0.5)
+        call_goto_技能点()
+
     # 自动战斗
     if player.Get_is_fight() in (1,3):
-        if player.Get_whois_act() in (1,4) :
-            player.Get_monster_info()
-            if player.Get_whois_act() == 1 :
-                player_act()
-                time.sleep(0.3)
-            else : 
-                if player.gw_cnt > 1 :
-                    pet_act('攻击')
-                    chick_monster()
-                else :
-                    pet_act('护卫')
-                    pet_click_player()
-            # r_pos = random.randint(1,20)
-            # dm.moveto(324 + r_pos,209 + r_pos)
-    else :
-        # ic('未在战斗')
-        pass
+        player.Get_monster_info()
+        if player.Get_whois_act() == 1 :
+            player_act()
+            time.sleep(0.3)
+        elif player.Get_whois_act() == 4 : 
+            if player.gw_cnt > 1 :
+                pet_act('攻击')
+                chick_monster()
+            elif player.gw_cnt == 1 and player.player_mp < summoner_ft_skill_ndmp :
+                pet_act('攻击')
+                chick_monster()
+            else :
+                pet_act('防御')
+        else :
+            time.sleep(0.2)
 
 
 def player_act():
@@ -33,17 +51,13 @@ def player_act():
     if player.player_hp > 500 and player.player_mp >= summoner_ft_skill_ndmp:
         gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
         r_pos = random.randint(5,10)
-        gc.MovetoChick(412,324 - r_pos) # 寵物位置
-    elif player.player_hp < 500 and player.player_mp >= summoner_bh_skill_ndmp :
-        gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
+        gc.MovetoClick(412,324 - r_pos) # 寵物位置
+    elif player.player_hp > 500 and player.player_mp < summoner_ft_skill_ndmp and player.player_mp >= 48:
+        gc.use_skill(summoner_ft_skill,2)
         r_pos = random.randint(5,10)
-        gc.MovetoChick(475,348 - r_pos) # 人物位置
-    elif player.pet_hp < 500 and player.player_mp >= summoner_bh_skill_ndmp :
-        gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
-        r_pos = random.randint(5,10)
-        gc.MovetoChick(412,324 - r_pos) # 寵物位置
+        gc.MovetoClick(475,348 - r_pos) # 寵物位置
     else :
-        ordinary_acct()
+        gc.ordinary_acct(gw_x,gw_y)
 
 def player_user_lv1(skill_name,skill_lv):
     r_pos = random.randint(1,20)
@@ -58,7 +72,7 @@ def player_user_lv1(skill_name,skill_lv):
     elif color == "d4ad6a" :
         ic('执行脚本第{}行'.format(sys._getframe().f_lineno),'技能面板未弹出,去点击技能菜单')
         r_pos = random.randint(1,5)
-        gc.MovetoChick(453 + r_pos,30 + r_pos)
+        gc.MovetoClick(453 + r_pos,30 + r_pos)
         time.sleep(0.2)
     # 识别技能
     x = 0
@@ -71,7 +85,7 @@ def player_user_lv1(skill_name,skill_lv):
     x = dm_ret[1]
     y = dm_ret[2]
     r_pos = random.randint(1,10)
-    gc.MovetoChick(x + r_pos,y + 5)
+    gc.MovetoClick(x + r_pos,y + 5)
     time.sleep(0.05)
     # 移动一下鼠标 做一些延迟
     dm.moveto(10 + r_pos,10 + r_pos)
@@ -86,10 +100,10 @@ def player_user_lv1(skill_name,skill_lv):
     x = dm_ret[1]
     y = dm_ret[2]
     r_pos = random.randint(1,10)
-    gc.MovetoChick(x + r_pos,y + 3)
+    gc.MovetoClick(x + r_pos,y + 3)
     time.sleep(0.1)
     r_pos = random.randint(5,10)
-    gc.MovetoChick(412,324 - r_pos) # 寵物位置
+    gc.MovetoClick(412,324 - r_pos) # 寵物位置
 
 def pet_act(skill_name):
     '''宠物攻击'''
@@ -121,7 +135,7 @@ def pet_act(skill_name):
 
 def pet_click_player():
     r_pos = random.randint(1,10)
-    gc.MovetoChick(475,348 - r_pos)
+    gc.MovetoClick(475,348 - r_pos)
 
 def user_skill(skill_name,skill_lv):
     ic('使用技能')
@@ -168,19 +182,6 @@ def user_skill(skill_name,skill_lv):
     time.sleep(0.1)
     chick_monster()
 
-def ordinary_acct():
-    ic('人物普攻')
-    color = dm.GetColor(383,30)
-    if color == "93bb6c" :
-        chick_monster()
-    elif color == "d4ad6a" :
-        dm.moveto(383,30)
-        time.sleep(0.1)
-        dm.leftclick()
-        chick_monster()
-    else :
-        time.sleep(0.5)
-
 def player_def():
     ic('人物防御')
     r_pos = random.randint(1,10)
@@ -210,7 +211,51 @@ def chose_monster():
     r_pos = random.randint(1,10)
     gw_y = gw_pos[1] - r_pos
 
+def call_goto_hospital():
+    gc.Goto(183,161)
+    time.sleep(1)
+    while player.Get_map_name() != '阿巴尼斯村' :
+        time.sleep(2)
+    time.sleep(1)
+    gc.Goto(40,66)
+    time.sleep(1.5)
+    gc.Goto(43,64)
+    time.sleep(1.5)
+    gc.Goto(47,64)
+    time.sleep(1)
+    while player.Get_map_name() != '医院' :
+        time.sleep(2)
+    time.sleep(1)
+    gc.Goto(8,9)
+    time.sleep(2)
+    gc.Goto(14,10)
+    time.sleep(1.5)
+    dm.moveto(162,105) # 右键资深医生
+    time.sleep(0.1)
+    dm.rightclick()
+    color = ""
+    color = dm.Getcolor(294,319)
+    while color != '346875' :
+        time.sleep(0.1)
+        color = dm.Getcolor(294,319)
 
+def call_goto_技能点():
+    gc.Goto(9,10)
+    time.sleep(1.5)
+    gc.Goto(1,9)
+    time.sleep(2)
+    while player.Get_map_name() != '阿巴尼斯村' :
+        time.sleep(2)
+    time.sleep(1)
+    gc.Goto(41,65)
+    time.sleep(1.5)
+    gc.Goto(38,69)
+    time.sleep(1.5)
+    gc.Goto(38,71)
+    time.sleep(1.5)
+    while player.Get_map_name() != '莎莲娜' :
+        time.sleep(2)
+    
 # ----------------------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
 summoner_bh_rate = 0.8
@@ -219,9 +264,9 @@ summoner_bh_skill = "补血"
 summoner_bh_skill_lv = 4
 summoner_bh_skill_ndmp = 60
 ### 人物战斗技能设置
-summoner_ft_skill = "洁净"
-summoner_ft_skill_lv = 3
-summoner_ft_skill_ndmp = 40
+summoner_ft_skill = "超强补血"
+summoner_ft_skill_lv = 5
+summoner_ft_skill_ndmp = 120
 ### 人物群攻技能设置
 summoner_ft_qgskill = "乱射"
 summoner_ft_qgskill_lv = 5

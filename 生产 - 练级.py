@@ -6,7 +6,7 @@ import random
 import sys
 
 def begin():
-
+    print(player.Get_map_name())
     # 自动战斗
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :
@@ -28,6 +28,8 @@ def begin():
     elif player.Get_is_fight() not in (1,3):
         if player.Get_talk_type() == 2 and player.Get_nurse_window() == 1 : 
             gc.Call_npc_nurse()
+        elif player.Get_map_name() == "香蒂的房间" :
+            gc.Get_gzq()
         else :
             time.sleep(0.5)
     else :
@@ -71,7 +73,7 @@ def pet_act(skill_name):
                 break
         x = dm_ret[1]
         y = dm_ret[2]
-        gc.MovetoChick(x + 20,y + 5)
+        gc.MovetoClick(x + 20,y + 5)
     else :
         dm.rightclick()
         time.sleep(0.3)
@@ -86,7 +88,7 @@ def pet_act(skill_name):
                 break
         x = dm_ret[1]
         y = dm_ret[2]
-        gc.MovetoChick(x + 20,y + 5)
+        gc.MovetoClick(x + 20,y + 5)
     # 做一下延迟
     time.sleep(0.1)
     gc.chick_monster(gw_x,gw_y)
@@ -98,7 +100,7 @@ def ordinary_acct():
         gc.chick_monster(gw_x,gw_y)
     elif color == "d4ad6a" :
         r_pos = random.randint(1,10)
-        gc.MovetoChick(380 + r_pos,30)
+        gc.MovetoClick(380 + r_pos,30)
         gc.chick_monster(gw_x,gw_y)
     else :
         time.sleep(0.2)
@@ -108,11 +110,11 @@ def player_def():
     r_pos = random.randint(1,10)
     color = dm.GetColor(383,54)
     if color == "d4ad6a":
-        gc.MovetoChick(393 + r_pos,54)
+        gc.MovetoClick(393 + r_pos,54)
 
 # def chick_monster():
 #     ic(gw_pos,'点击怪物')
-#     gc.MovetoChick(gw_x,gw_y)
+#     gc.MovetoClick(gw_x,gw_y)
 #     time.sleep(0.2)
 #     player.Get_mouse_type()
 #     chick_num = 0 # 点击满5次还没有点到就退出循环

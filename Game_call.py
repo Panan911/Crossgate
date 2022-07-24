@@ -220,4 +220,23 @@ def chick_monster(gw_x,gw_y):
     r_pos = random.randint(1,30)
     dm.moveto(253 + r_pos,35 + r_pos)
 
+def Get_gzq():
+    # color = ""
+    color = dm.getcolor(295,320)
+    while color != "346875" :
+        time.sleep(0.1)
+        color = dm.getcolor(295,320)
+    time.sleep(0.3)
+    MovetoClick(295,320)
+    time.sleep(1)
+    dm.leftclick()
+    time.sleep(1)
+    dm.leftclick()
+    time.sleep(1)
+    MovetoClick(230,320)
+    time.sleep(1)
+    dm.leftclick()
+    time.sleep(1)
+    MovetoClick(295,320)
+    time.sleep(2)
 call = main()

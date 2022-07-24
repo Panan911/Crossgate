@@ -21,7 +21,8 @@ def begin():
                     break
             if player.Get_whois_act() == 4 :
                 if player.pet_hp / player.pet_maxhp < pet_bh_rate and player.pet_mp >= pet_bh_skill_ndmp :
-                    pet_act('明镜')
+                    pet_act('吸血攻击')
+                    gc.chick_monster(gw_x,gw_y)
                 else :
                     pet_act('攻击')
                     gc.chick_monster(gw_x,gw_y)
@@ -32,6 +33,8 @@ def begin():
     elif player.Get_is_fight() not in (1,3):
         if player.Get_talk_type() == 2 and player.Get_nurse_window() == 1 : 
             gc.Call_npc_nurse()
+        elif player.Get_map_name() == "香蒂的房间" :
+            gc.Get_gzq()
         else :
             time.sleep(0.5)
     else :
@@ -45,15 +48,16 @@ def player_act():
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(10 + r_pos,10 + r_pos)
+    print(player.Get_player_name(),player.player_hp,player.player_maxhp,player.player_mp,player.player_maxmp)
     if player.gw_cnt > summoner_bh_gwcnt and player.player_mp >= summoner_ft_qgskill_ndmp :
         if player.gw_cnt == 3 :
-            summoner_ft_qgskill_lv = 2
+            summoner_ft_qgskill_lv = 1
         elif player.gw_cnt in (4,5) :
-            summoner_ft_qgskill_lv = 5
+            summoner_ft_qgskill_lv = 2
         elif player.gw_cnt in (6,7) :
-            summoner_ft_qgskill_lv = 7
+            summoner_ft_qgskill_lv = 3
         else :
-            summoner_ft_qgskill_lv = 7
+            summoner_ft_qgskill_lv = 4
         gc.use_skill(summoner_ft_qgskill,summoner_ft_qgskill_lv)
         gc.chick_monster(gw_x,gw_y)
     else :

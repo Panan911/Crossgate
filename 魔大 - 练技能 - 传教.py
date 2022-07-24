@@ -6,35 +6,7 @@ import random
 import sys
 
 
-
-from main import *
-import Game_call as gc
-import time
-from icecream import ic
-import random
-import sys
-
-
 def begin():
-    player.Get_player_hpmp()
-    while player.Get_is_fight() not in (1,3) and player.s_minmp >= 100 and player.Get_map_name() == '莎莲娜':
-        gc.auto_walk(116,102)
-        player.Get_player_hpmp()
-    # 回去补给
-    if player.Get_is_fight() not in (1,3) and (player.s_minmp < 100 or player.s_minhp < 100) and player.Get_map_name() == '莎莲娜':
-        print('没魔了，回城补给')
-        while player.Get_player_moving() != 0 :
-            time.sleep(0.5)
-        gc.MovetoClick(318,237)
-        time.sleep(0.5)
-        call_goto_hospital()
-        gc.Call_npc_nurse()
-        if len(player.arrange_package()) >= 10 :
-            print(len(player.arrange_package()))
-            call_goto_sell()
-    if player.Get_is_fight() not in (1,3) and player.Get_player_pos()[0] == 33 and player.Get_player_pos()[1] == 48 :  
-        call_goto_技能点()
-    
     # 自动战斗
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :
@@ -43,7 +15,7 @@ def begin():
             #     print('有1级怪，停止自动战斗')
             #     quit()
             if player.Get_whois_act() == 1 :
-                chose_monster()
+                # chose_monster()
                 player_act()
                 while player.Get_whois_act() not in (4,5) :
                     time.sleep(0.1)
@@ -54,6 +26,8 @@ def begin():
             elif player.Get_whois_act() == 4 :
                 if player.pet_hp / player.pet_maxhp < pet_bh_rate and player.pet_mp >= pet_bh_skill_ndmp :
                     pet_act('明镜')
+                elif player.gw_cnt < 2 and player.player_mp >= summoner_qt_skill_ndmp:
+                    pet_act('防御')
                 else :
                     pet_act('攻击')
                     gc.chick_monster(gw_x,gw_y)
@@ -77,9 +51,9 @@ def player_act():
     r_pos = random.randint(1,20)
     dm.moveto(253 + r_pos,35 + r_pos)
     # 怪物数量 >= 某个值，群攻魔法值足够，使用群攻技能
-    if player.gw_cnt >= 5 and player.player_mp >= summoner_qt_skill_ndmp :
+    if player.player_mp >= summoner_qt_skill_ndmp :
         gc.use_skill(summoner_qt_skill,summoner_qt_skill_lv)
-        gc.chick_monster(gw_x,gw_y)
+        gc.MovetoClick(412,324 - r_pos) # 寵物位置
     # 怪物数量在某个阈值内，并且有强力点，强力技能魔法足够，使用强力魔法技能：
     elif player.gw_cnt in (4,5) and is_qld == 1 and player.player_mp >= summoner_ql_skill_ndmp :
         gc.use_skill(summoner_ql_skill,summoner_ql_skill_lv)
@@ -396,7 +370,7 @@ def call_goto_sell():
     gc.Goto(43,50)
     time.sleep(1.5)
 
-# ----------------------------------战斗参数设置---------------------------------------- #
+#------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
 summoner_bh_rate = 0.9
 summoner_bh_gwcnt = 3
@@ -404,19 +378,19 @@ summoner_bh_skill = "吸血魔法"
 summoner_bh_skill_lv = 4
 summoner_bh_skill_ndmp = 40
 ### 人物单体技能设置
-summoner_ft_skill = "火焰魔法"
+summoner_ft_skill = "冰冻魔法"
 summoner_ft_skill_lv = 5
 summoner_ft_skill_ndmp = 25
 ### 人物强力魔法
-summoner_ql_skill = "强力冰冻魔法"
+summoner_ql_skill = "强力火焰魔法"
 summoner_ql_skill_lv = 3
 summoner_ql_skill_ndmp = 30
 ### 人物全体技能设置
-summoner_qt_skill = "超强冰冻魔法"
-summoner_qt_skill_lv = 5
-summoner_qt_skill_ndmp = 100
+summoner_qt_skill = "超强补血魔法"
+summoner_qt_skill_lv = 2
+summoner_qt_skill_ndmp = 48
 ##  宠物保护设置
-pet_bh_rate = 0.6
+pet_bh_rate = 0.7
 pet_bh_skill = "明镜"
 pet_bh_skill_ndmp = 75
 pet_bh_skill_type = 1 if pet_bh_skill in ('吸血攻击') else 2   #保护技能是否需要点击目标(1 = 需要 | 2 = 不需要)
@@ -430,3 +404,5 @@ if __name__ == '__main__':
     pos_y = player.Get_player_pos()[1]
     while 1:    
         begin()
+
+

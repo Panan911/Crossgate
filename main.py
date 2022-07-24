@@ -22,10 +22,9 @@ class main():
 
     def Get_player_name(self):
         '''人物名称'''
-        global player_name
-        player_name = dm.ReadString(hwnd,"00F708E8",0,12).encode('gb18030').decode('big5')
-        player_name = self.Change_GBK(player_name)
-        return player_name
+        self.player_name = dm.ReadString(hwnd,"00F708E8",0,12).encode('gb18030').decode('big5')
+        self.player_name = self.Change_GBK(self.player_name)
+        return self.player_name
 
     def Get_player_job(self):
         '''职业'''
@@ -92,9 +91,8 @@ class main():
     ###############################地图信息
     def Get_map_name(self):
         '''地图名称'''
-        global map_name
-        map_name = dm.ReadString(hwnd,"0096DF08",0,15).encode('gb18030').decode('big5')
-        return self.Change_GBK(map_name)
+        self.map_name = dm.ReadString(hwnd,"0096DF08",0,15).encode('gb18030').decode('big5')
+        return self.Change_GBK(self.map_name)
     ######################################################################################################
     # def click_memu(self,memu_name):
     #     if memu_name == '状态':
@@ -171,7 +169,7 @@ class main():
 
         player_name = self.Get_player_name()
         for i in self.monsters.keys():
-            if self.monsters[i][0][1:4] == player_name[1:4] :
+            if self.monsters[i][0] == player_name :
                 player_hp,player_maxhp,player_mp,player_maxmp = self.monsters[i][2],self.monsters[i][3],self.monsters[i][4],self.monsters[i][5]
                 player_sn = int(i)
                 pet_sn = (player_sn) + 5 if (player_sn) < 5 else (player_sn - 5)
@@ -292,7 +290,21 @@ class main():
             if self.is_item == 1 :
                 self.package_info[i+1] = [self.pkg_name,self.is_item,self.item_num]
         return self.package_info
-
+    
+    def Get_color(self,posx,posy):
+        self.color = ""
+        self.color = dm.GetColor(posx,posy)
+        return self.color
+    
+    def Find_str(self,str):
+        x = 0
+        y = 0
+        self.is_str = dm.FindStr(0,0,2000,2000,str,"ffffff-000000",1.0,x,y)
+        return self.is_str
+    
+    def Get_jd_ndmp(self):
+        self.jd_ndmp = int(dm.ReadString(hwnd, "[<CGHK.exe>+B56FC]+526", 0, 15))
+        return self.jd_ndmp
 ##############################
 # 字典部分
 ## 怪物坐标
