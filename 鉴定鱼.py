@@ -154,14 +154,14 @@ def pick_fish():
         time.sleep(0.1)
         dm.Getcolor(225,320)
     r_pos = random.randint(1,10)
-    call.MovetoChick(225 + r_pos, 320)
+    call.MovetoClick(225 + r_pos, 320)
     # 点击确定
     coloe = '000000'
     while dm.Getcolor(300,320) != "336975" :
         time.sleep(0.1)
         dm.Getcolor(300,320)
     r_pos = random.randint(1,10)
-    call.MovetoChick(300 + r_pos, 320)
+    call.MovetoClick(300 + r_pos, 320)
 
 
 def wait_succ():

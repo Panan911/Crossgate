@@ -33,14 +33,15 @@ def begin():
             player_act()
             time.sleep(0.3)
         elif player.Get_whois_act() == 4 : 
-            if player.gw_cnt > 1 :
-                pet_act('攻击')
-                chick_monster()
-            elif player.gw_cnt == 1 and player.player_mp < summoner_ft_skill_ndmp :
-                pet_act('攻击')
-                chick_monster()
-            else :
-                pet_act('防御')
+            # if player.gw_cnt > 1 :
+            #     pet_act('攻击')
+            #     chick_monster()
+            # elif player.gw_cnt == 1 and player.player_mp < summoner_ft_skill_ndmp :
+            #     pet_act('攻击')
+            #     chick_monster()
+            # else :
+            #     pet_act('防御')
+            pet_act('防御')
         else :
             time.sleep(0.2)
 
@@ -48,14 +49,24 @@ def begin():
 def player_act():
     ic('人物行动')
     # 获取战斗信息
-    if player.player_hp > 500 and player.player_mp >= summoner_ft_skill_ndmp:
-        gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
-        r_pos = random.randint(5,10)
-        gc.MovetoClick(412,324 - r_pos) # 寵物位置
-    elif player.player_hp > 500 and player.player_mp < summoner_ft_skill_ndmp and player.player_mp >= 48:
-        gc.use_skill(summoner_ft_skill,2)
-        r_pos = random.randint(5,10)
-        gc.MovetoClick(475,348 - r_pos) # 寵物位置
+    # if player.player_hp > 500 and player.player_mp >= summoner_ft_skill_ndmp:
+    #     gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
+    #     r_pos = random.randint(5,10)
+    #     gc.MovetoClick(412,324 - r_pos) # 寵物位置
+    # elif player.player_hp > 500 and player.player_mp < summoner_ft_skill_ndmp and player.player_mp >= 48:
+    #     gc.use_skill(summoner_ft_skill,2)
+    #     r_pos = random.randint(5,10)
+    #     gc.MovetoClick(475,348 - r_pos) # 寵物位置
+    # else :
+    #     gc.ordinary_acct(gw_x,gw_y)
+
+    r_pos = random.randint(5,10)
+    if player.player_mp >= 5 and player.pet_hp >= 100:
+        gc.use_skill('气绝',1)
+        gc.MovetoClick(412,324 - r_pos)
+    elif player.player_mp >= 15 and player.pet_hp < 100:
+        gc.use_skill('补血',1)
+        gc.MovetoClick(475,348 - r_pos)
     else :
         gc.ordinary_acct(gw_x,gw_y)
 

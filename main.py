@@ -247,7 +247,7 @@ class main():
         time.sleep(0.05)
         dm.keypress(123)
         dm.keyup(17)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
     def Get_panel(self,panel_name):
         '''获取面板情况'''

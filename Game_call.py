@@ -181,6 +181,11 @@ def use_skill(skill_name,skill_lv):
         dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
     x = dm_ret[1]
     y = dm_ret[2]
+    if x < 15 or x > 200 or y < 90 or y > 300 :
+        call.Return_panel()
+    dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
+    x = dm_ret[1]
+    y = dm_ret[2]
     r_pos = random.randint(10,20)
     MovetoClick(x + r_pos,y + 5)
     time.sleep(0.1)
