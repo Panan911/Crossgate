@@ -159,8 +159,8 @@ summoner_bh_skill_lv = 1
 summoner_bh_skill_ndmp = 10
 ### 人物战斗技能设置
 summoner_ft_skill = "崩击"
-summoner_ft_skill_lv = 1
-summoner_ft_skill_ndmp = 5
+summoner_ft_skill_lv = 2
+summoner_ft_skill_ndmp = 4
 ### 人物群攻技能设置
 # summoner_ft_qgskill = "乱射"
 # summoner_ft_qgskill_lv = 5

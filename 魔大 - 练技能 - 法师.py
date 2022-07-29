@@ -396,9 +396,9 @@ summoner_bh_skill = "吸血魔法"
 summoner_bh_skill_lv = 4
 summoner_bh_skill_ndmp = 40
 ### 人物单体技能设置
-summoner_ft_skill = "冰冻魔法"
-summoner_ft_skill_lv = 5
-summoner_ft_skill_ndmp = 25
+summoner_ft_skill = "火焰魔法"
+summoner_ft_skill_lv = 4
+summoner_ft_skill_ndmp = 20
 ### 人物强力魔法
 summoner_ql_skill = "强力火焰魔法"
 summoner_ql_skill_lv = 3

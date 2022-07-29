@@ -19,9 +19,7 @@ def Call_npc_nurse():
     call.Get_player_hpmp()
     if call.s_minmp < call.s_maxmp :
         # 恢复mp
-        dm.moveto(245,195)
-        time.sleep(0.1)
-        dm.leftclick()
+        MovetoClick(245,195)
         time.sleep(0.2)
         while dm.Getcolor(223,314) != "346875" and dm.Getcolor(293, 313) != "336975" :
             time.sleep(0.1)
@@ -97,11 +95,10 @@ def auto_walk(pos_x,pos_y):
         x = pos_x
         y = pos_y
         Goto(x,y)
-        print(x,y)
-        time.sleep(0.8)
-        Goto(x + 5,y)
-        print(x + 5,y)
-        time.sleep(0.8)
+        time.sleep(1.2)
+        Goto(x + 6,y)
+        time.sleep(1.2)
+
 
 def Goto(pos_x,pos_y):
     '''去某个坐标'''
@@ -137,7 +134,7 @@ def Goto(pos_x,pos_y):
     tag_y = pos_y
     chick_pos_x = d1[(tag_x,tag_y)][0]
     chick_pos_y = d1[(tag_x,tag_y)][1]
-    r_pos = random.randint(1,10)
+    r_pos = random.randint(1,12)
     dm.moveto(chick_pos_x + r_pos,chick_pos_y + r_pos)
     dm.leftclick()
 

@@ -124,8 +124,8 @@ def chose_monster():
 summoner_bh_rate = 0.8
 summoner_bh_gwcnt = 3
 summoner_bh_skill = "明镜"
-summoner_bh_skill_lv = 1
-summoner_bh_skill_ndmp = 15
+summoner_bh_skill_lv = 2
+summoner_bh_skill_ndmp = 30
 ### 人物战斗技能设置
 summoner_ft_skill = "因果报应"
 summoner_ft_skill_lv = 1

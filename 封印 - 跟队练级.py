@@ -47,14 +47,14 @@ def player_act():
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(10 + r_pos,10 + r_pos)
-    # if player.gw_cnt <= summoner_bh_gwcnt and player.player_hp / player.player_maxhp <= summoner_bh_rate and player.player_mp >= summoner_bh_skill_ndmp :
-    #     gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
-    # elif player.player_mp >= summoner_ft_skill_ndmp :
-    #     gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
-    #     gc.chick_monster(gw_x,gw_y)
-    # else :
-    #     gc.ordinary_acct(gw_x,gw_y)
-    gc.ordinary_acct(gw_x,gw_y)
+    if player.gw_cnt <= summoner_bh_gwcnt and player.player_hp / player.player_maxhp <= summoner_bh_rate and player.player_mp >= summoner_bh_skill_ndmp :
+        gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
+    elif player.player_mp >= summoner_ft_skill_ndmp :
+        gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
+        gc.chick_monster(gw_x,gw_y)
+    else :
+        gc.ordinary_acct(gw_x,gw_y)
+    # gc.ordinary_acct(gw_x,gw_y)
 
 def pet_act(skill_name):
     # 获取一下怪物信息
@@ -124,8 +124,8 @@ def chose_monster():
 summoner_bh_rate = 0.8
 summoner_bh_gwcnt = 3
 summoner_bh_skill = "明镜"
-summoner_bh_skill_lv = 1
-summoner_bh_skill_ndmp = 10
+summoner_bh_skill_lv = 2
+summoner_bh_skill_ndmp = 30
 ### 人物战斗技能设置
 summoner_ft_skill = "因果报应"
 summoner_ft_skill_lv = 1

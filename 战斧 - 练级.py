@@ -32,10 +32,13 @@ def begin():
         gc.Call_npc_nurse()
     elif player.Get_is_fight() not in (1,3):
         if player.Get_talk_type() == 2 and player.Get_nurse_window() == 1 : 
+            print(1)
             gc.Call_npc_nurse()
         elif player.Get_map_name() == "香蒂的房间" :
+            print(2)
             gc.Get_gzq()
         else :
+            print(3)
             time.sleep(0.5)
     else :
         time.sleep(0.1)
@@ -48,20 +51,11 @@ def player_act():
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(10 + r_pos,10 + r_pos)
-    print(player.Get_player_name(),player.player_hp,player.player_maxhp,player.player_mp,player.player_maxmp)
-    if player.gw_cnt > summoner_bh_gwcnt and player.player_mp >= summoner_ft_qgskill_ndmp :
-        if player.gw_cnt == 3 :
-            summoner_ft_qgskill_lv = 2
-        elif player.gw_cnt in (4,5) :
-            summoner_ft_qgskill_lv = 3
-        elif player.gw_cnt in (6,7) :
-            summoner_ft_qgskill_lv = 5
-        else :
-            summoner_ft_qgskill_lv = 7
-        gc.use_skill(summoner_ft_qgskill,summoner_ft_qgskill_lv)
+    if player.player_mp >= summoner_ft_skill_ndmp :
+        gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
         gc.chick_monster(gw_x,gw_y)
     else :
-        gc.ordinary_acct(gw_x,gw_y)
+        ordinary_acct()
 
 def pet_act(skill_name):
     # 获取一下怪物信息
@@ -108,6 +102,40 @@ def pet_act(skill_name):
         x = dm_ret[1]
         y = dm_ret[2]
         gc.MovetoClick(x + 20,y + 5)
+    # 做一下延迟
+    time.sleep(0.1)
+    gc.chick_monster(gw_x,gw_y)
+
+def ordinary_acct():
+    ic('人物普攻')
+    color = dm.GetColor(383,30)
+    if color == "93bb6c" :
+        gc.chick_monster(gw_x,gw_y)
+    elif color == "d4ad6a" :
+        r_pos = random.randint(1,10)
+        gc.MovetoClick(380 + r_pos,30)
+        gc.chick_monster(gw_x,gw_y)
+    else :
+        time.sleep(0.2)
+    time.sleep(0.3)
+
+# def chick_monster():
+#     ic(gw_pos,'点击怪物')
+#     gc.MovetoClick(gw_x,gw_y)
+#     time.sleep(0.2)
+#     player.Get_mouse_type()
+#     chick_num = 0 # 点击满5次还没有点到就退出循环
+#     while player.Get_mouse_type()!= 2 :
+#         r_pos = random.randint(1,10)
+#         dm.moveto(gw_x + r_pos,gw_y - r_pos)
+#         time.sleep(0.1)
+#         player.Get_mouse_type()
+#         chick_num += 1
+#         if chick_num > 5:
+#             break
+#     dm.leftclick()
+#     r_pos = random.randint(1,30)
+#     dm.moveto(253 + r_pos,35 + r_pos)
 
 def chose_monster():
     '''选择怪物'''
@@ -131,13 +159,13 @@ summoner_bh_skill = "明镜止水"
 summoner_bh_skill_lv = 1
 summoner_bh_skill_ndmp = 10
 ### 人物战斗技能设置
-summoner_ft_skill = "乾坤一掷"
-summoner_ft_skill_lv = 1
-summoner_ft_skill_ndmp = 10
+summoner_ft_skill = "崩击"
+summoner_ft_skill_lv = 2
+summoner_ft_skill_ndmp = 4
 ### 人物群攻技能设置
-summoner_ft_qgskill = "乱射"
-summoner_ft_qgskill_lv = 5
-summoner_ft_qgskill_ndmp = 25
+# summoner_ft_qgskill = "乱射"
+# summoner_ft_qgskill_lv = 5
+# summoner_ft_qgskill_ndmp = 25
 ##  宠物保护设置
 pet_bh_rate = 0.6
 pet_bh_skill = "明镜"

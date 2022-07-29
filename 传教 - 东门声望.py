@@ -33,8 +33,8 @@ def begin():
             player_act()
             time.sleep(0.3)
         elif player.Get_whois_act() == 4 : 
-            if player.gw_cnt > 1 :
-                pet_act('攻击')
+            if player.gw_cnt > 1 and player.pet_mp >= 38:
+                pet_act('连击')
                 chick_monster()
             elif player.gw_cnt == 1 and player.player_mp < summoner_ft_skill_ndmp :
                 pet_act('攻击')
@@ -53,7 +53,7 @@ def player_act():
         r_pos = random.randint(5,10)
         gc.MovetoClick(412,324 - r_pos) # 寵物位置
     elif player.player_hp > 500 and player.player_mp < summoner_ft_skill_ndmp and player.player_mp >= 48:
-        gc.use_skill(summoner_ft_skill,2)
+        gc.use_skill(summoner_ft_skill,4)
         r_pos = random.randint(5,10)
         gc.MovetoClick(475,348 - r_pos) # 寵物位置
     else :
