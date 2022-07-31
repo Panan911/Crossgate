@@ -99,7 +99,6 @@ def auto_walk(pos_x,pos_y):
         Goto(x + 6,y)
         time.sleep(1.2)
 
-
 def Goto(pos_x,pos_y):
     '''去某个坐标'''
     call.Get_player_pos()
@@ -137,6 +136,10 @@ def Goto(pos_x,pos_y):
     r_pos = random.randint(1,12)
     dm.moveto(chick_pos_x + r_pos,chick_pos_y + r_pos)
     dm.leftclick()
+    while 1:
+        time.sleep(0.1)
+        if call.Get_player_moving() == 0:
+            break
 
 def MovetoClick(pos_x,pos_y):
     '''移动并且点击'''
@@ -151,6 +154,14 @@ def MovetoDoubleClick(pos_x,pos_y):
     time.sleep(0.05)
     dm.LeftDoubleClick()
     time.sleep(0.05)
+
+def MovetoRightClick(pos_x,pos_y):
+    '''移动并且点击'''
+    dm.moveto(pos_x,pos_y)
+    time.sleep(0.05)
+    dm.rightclick()
+    time.sleep(0.05)
+
 
 def use_skill(skill_name,skill_lv):
     # 选择技能
@@ -176,6 +187,11 @@ def use_skill(skill_name,skill_lv):
     while dm_ret[0] != 0 :
         time.sleep(0.1)
         dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
+    x = dm_ret[1]
+    y = dm_ret[2]
+    if x < 15 or x > 200 or y < 90 or y > 300 :
+        call.Return_panel()
+    dm_ret = dm.FindStr(0,0,2000,2000,skill_name,"ffffff-000000",1.0,x,y)
     x = dm_ret[1]
     y = dm_ret[2]
     r_pos = random.randint(10,20)
@@ -217,8 +233,18 @@ def chick_monster(gw_x,gw_y):
     r_pos = random.randint(1,30)
     dm.moveto(253 + r_pos,35 + r_pos)
 
+def chick_player():
+    '''点击主人'''
+    r_pos = random.randint(5,10)
+    MovetoClick(475,348 - r_pos)
+
+def chick_pet():
+    '''点击宠物'''
+    r_pos = random.randint(5,10)
+    MovetoClick(400,348 - r_pos)
+
 def Get_gzq():
-    # color = ""
+    '''改造券对话'''
     color = dm.getcolor(295,320)
     while color != "346875" :
         time.sleep(0.1)
@@ -236,4 +262,41 @@ def Get_gzq():
     time.sleep(1)
     MovetoClick(295,320)
     time.sleep(2)
+
+def Call_out():
+    '''登出'''
+    MovetoClick(490,470)
+    while 1 :
+        time.sleep(0.1)
+        x = 0
+        y = 0
+        dm_ret = dm.FindPic(0,0,2000,2000,"./pic/系统设定.bmp","000000",0.9,0,x,y)
+        if dm_ret[0] == 0 :
+            x = dm_ret[1]
+            y = dm_ret[2]
+            break
+    pos_x = x
+    pos_y = y + 40
+    MovetoClick(pos_x,pos_y)
+    time.sleep(0.5)
+    pos_x = pos_x - 145
+    pos_y = pos_y - 20
+    MovetoClick(pos_x,pos_y)
+    while 1:
+        time.sleep(0.2)
+        if call.Get_color(560,468) == "336975" :
+            time.sleep(0.5)
+            break
+
+
+
+
+
+
+
+
+
+
+
+
 call = main()

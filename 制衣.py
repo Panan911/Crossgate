@@ -11,33 +11,33 @@ def begin():
 		item_x = find_item(item1,item1_num)[0]
 		item_y = find_item(item1,item1_num)[1]
 		r_pos = random.randint(5,15)
-		gc.MovetoDoubleChick(item_x + r_pos,item_y + r_pos)
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
 		# 寻找item2
 		item_x = find_item(item2,item2_num)[0]
 		item_y = find_item(item2,item2_num)[1]
 		r_pos = random.randint(5,15)
-		gc.MovetoDoubleChick(item_x + r_pos,item_y + r_pos)
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
 		# 寻找item3
 		item_x = find_item(item3,item3_num)[0]
 		item_y = find_item(item3,item3_num)[1]
 		r_pos = random.randint(5,15)
-		gc.MovetoDoubleChick(item_x + r_pos,item_y + r_pos)
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
 		# 寻找item4
 		item_x = find_item(item4,item4_num)[0]
 		item_y = find_item(item4,item4_num)[1]
 		r_pos = random.randint(5,15)
-		gc.MovetoDoubleChick(item_x + r_pos,item_y + r_pos)
+		gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
 		# 寻找item5
-		item_x = find_item(item5,item5_num)[0]
-		item_y = find_item(item5,item5_num)[1]
-		r_pos = random.randint(5,15)
-		gc.MovetoDoubleChick(item_x + r_pos,item_y + r_pos)
+		# item_x = find_item(item5,item5_num)[0]
+		# item_y = find_item(item5,item5_num)[1]
+		# r_pos = random.randint(5,15)
+		# gc.MovetoDoubleClick(item_x + r_pos,item_y + r_pos)
 		x = 0
 		y = 0
 		dm_ret = dm.FindPic(0,0,2000,2000,"./pic/执行.bmp","000000",0.9,0,x,y)
 		x = dm_ret[1]
 		y = dm_ret[2]
-		gc.MovetoChick(x,y)
+		gc.MovetoClick(x,y)
 		mp_now = zz.s_minmp
 		time.sleep(1)
 		mp_new = mp_now
@@ -52,7 +52,7 @@ def begin():
 		dm_ret = dm.FindPic(0,0,2000,2000,"./pic/重试.bmp","000000",0.9,0,x,y)
 		x = dm_ret[1]
 		y = dm_ret[2]
-		gc.MovetoChick(x,y)
+		gc.MovetoClick(x,y)
 	else :
 		print('mp不够了')
 		quit()
@@ -84,15 +84,15 @@ def find_item(item_name,item_num):
 
 if __name__ == '__main__':
 	zz = main()
-	item1 = "纵"
-	item1_num = 20
-	item2 = "黄月木"
-	item2_num = 20
-	item3 = "铁杉"
-	item3_num = 20
-	item4 = "毛毡"
-	item4_num = 10
-	item5 = "绵"
-	item5_num = 11
+	item1 = "绵"
+	item1_num = 10
+	item2 = "毛毡"
+	item2_num = 7
+	item3 = "银条"
+	item3_num = 5
+	item4 = "鹿皮"
+	item4_num = 20
+	# item5 = "绵"
+	# item5_num = 11
 	while 1 :
 		begin()

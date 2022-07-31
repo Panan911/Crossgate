@@ -3,12 +3,12 @@ import random
 import Game_call as gc
 
 def 来回走路():
-	while player.Get_is_fight() not in (1,3) :
-		x = 303
-		y = 387
+	while player.Get_player_moving() == 0 :
+		x = 26
+		y = 8
 		gc.Goto(x,y)
 		time.sleep(0.8)
-		gc.Goto(x + 5,y)
+		gc.Goto(x ,y + 5)
 		time.sleep(0.8)
 
 if __name__ == '__main__':

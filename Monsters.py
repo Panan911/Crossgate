@@ -190,6 +190,7 @@ if is_admin():
     win.title("CrossGate - Monsters")
     # 窗口置顶
     win.wm_attributes('-topmost',1)
+    
 
     height = 5
     width = 20
@@ -271,7 +272,7 @@ if is_admin():
         get_fight_flag()
         rd = 0
         while is_fight == 3:
-            time.sleep(1)
+            # time.sleep(1)
             round =  dm.ReadInt(hwnd,"5A8D90",0) + 1
             if round > rd :
                 try :

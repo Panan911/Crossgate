@@ -6,10 +6,19 @@ import random
 import sys
 
 
+
+from main import *
+import Game_call as gc
+import time
+from icecream import ic
+import random
+import sys
+
+
 def begin():
     player.Get_player_hpmp()
     while player.Get_is_fight() not in (1,3) and player.s_minmp >= 100 and player.Get_map_name() == '莎莲娜':
-        gc.auto_walk(116,102)
+        gc.auto_walk(115,102)
         player.Get_player_hpmp()
     # 回去补给
     if player.Get_is_fight() not in (1,3) and (player.s_minmp < 100 or player.s_minhp < 100) and player.Get_map_name() == '莎莲娜':
@@ -22,9 +31,10 @@ def begin():
         gc.Call_npc_nurse()
         if len(player.arrange_package()) >= 10 :
             print(len(player.arrange_package()))
+            time.sleep(1)
             call_goto_sell()
-        goto_back()
-    if player.Get_is_fight() not in (1,3) and player.Get_player_pos()[0] == 33 and player.Get_player_pos()[1] == 48 :  
+            call_goto_技能点()
+    if player.Get_is_fight() not in (1,3) and player.Get_player_pos()[0] == 33 and player.Get_player_pos()[1] == 48 :
         call_goto_技能点()
     
     # 自动战斗
@@ -49,6 +59,12 @@ def begin():
                 else :
                     pet_act('攻击')
                     gc.chick_monster(gw_x,gw_y)
+                # elif player.gw_cnt == 1 and player.player_mp > 50 :
+                #     pet_act('护卫')
+                # #     gc.chick_player()
+                # else :
+                #     pet_act('攻击')
+                #     gc.chick_monster(gw_x,gw_y)
                 time.sleep(0.1)
             else :
                 time.sleep(0.2)
@@ -295,6 +311,7 @@ def call_goto_hospital():
     # gc.Call_npc_nurse()
 
 def call_goto_技能点():
+    time.sleep(1)
     gc.Goto(39,51)
     time.sleep(1.5)
     gc.Goto(39,59)
@@ -340,9 +357,7 @@ def call_goto_sell():
     time.sleep(1.5)
     gc.Goto(46,49)
     time.sleep(1.5)
-    gc.Goto(50,46)
-    time.sleep(1.5)
-    gc.Goto(47,49)
+    gc.Goto(49,46)
     time.sleep(1.5)
     gc.Goto(51,43)
     time.sleep(1.5)
@@ -355,26 +370,30 @@ def call_goto_sell():
     time.sleep(1.5)
     gc.Goto(20,10)
     time.sleep(1.5)
-    time.sleep(0.5)
+    time.sleep(1)
     dm.moveto(412,352)
     time.sleep(0.05)
-    dm.rightclick(351,264)
+    dm.rightclick()
     color = ""
     color = dm.GetColor(246,242)
     while color != "8c6100" :
         time.sleep(0.5)
-    gc.MovetoChick(315,264)
+        color = dm.GetColor(246,242)
+    time.sleep(0.5)
+    gc.MovetoClick(315,264)
     color = ""
     color = dm.GetColor(484,372)
     while color != "346875" :
         time.sleep(0.5)
-    gc.MovetoChick(388,373)
+        color = dm.GetColor(484,372)
+    gc.MovetoClick(388,373)
     time.sleep(0.5)
-    gc.MovetoChick(322,371)
+    gc.MovetoClick(322,371)
     time.sleep(0.5)
-    gc.MovetoChick(322,371)
+    gc.MovetoClick(322,371)
     time.sleep(0.5)
-    gc.MovetoChick(120,390)
+    gc.MovetoClick(120,390)
+    time.sleep(1)
     gc.Goto(23,15)
     time.sleep(1.5)
     gc.Goto(23,18)
@@ -385,10 +404,12 @@ def call_goto_sell():
     time.sleep(1.5)
     gc.Goto(56,49)
     time.sleep(1.5)
+    gc.Goto(50,49)
+    time.sleep(1.5)
     gc.Goto(43,50)
     time.sleep(1.5)
 
-#------------------战斗参数设置---------------------------------------- #
+# ----------------------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
 summoner_bh_rate = 0.9
 summoner_bh_gwcnt = 3
@@ -397,8 +418,8 @@ summoner_bh_skill_lv = 4
 summoner_bh_skill_ndmp = 40
 ### 人物单体技能设置
 summoner_ft_skill = "火焰魔法"
-summoner_ft_skill_lv = 4
-summoner_ft_skill_ndmp = 20
+summoner_ft_skill_lv = 6
+summoner_ft_skill_ndmp = 30
 ### 人物强力魔法
 summoner_ql_skill = "强力火焰魔法"
 summoner_ql_skill_lv = 3
@@ -422,5 +443,3 @@ if __name__ == '__main__':
     pos_y = player.Get_player_pos()[1]
     while 1:    
         begin()
-
-

@@ -6,7 +6,7 @@ import Game_call as gc
 
 def begin():
 	zz.Get_player_hpmp()
-	if zz.s_minmp >= 67:
+	if zz.s_minmp >= 89:
 		# 寻找item1
 		item_x = find_item(item1,item1_num)[0]
 		item_y = find_item(item1,item1_num)[1]
@@ -85,12 +85,12 @@ def find_item(item_name,item_num):
 
 if __name__ == '__main__':
 	zz = main()
-	item1 = "桃木"
-	item1_num = 5
-	item2 = "果梨"
+	item1 = "番红花"
+	item1_num = 15
+	item2 = "桃木"
 	item2_num = 15
-	item3 = "蝴蝶花"
-	item3_num = 15
+	item3 = "果梨"
+	item3_num = 10
 	# item4 = "鹿皮"
 	# item4_num = 20
 	while 1 :

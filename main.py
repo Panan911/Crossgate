@@ -247,7 +247,7 @@ class main():
         time.sleep(0.05)
         dm.keypress(123)
         dm.keyup(17)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
     def Get_panel(self,panel_name):
         '''获取面板情况'''
@@ -308,7 +308,7 @@ class main():
 ##############################
 # 字典部分
 ## 怪物坐标
-global gw_pos_dict
+global gw_pos_dict,flc_sj_pos
 gw_pos_dict = { 10:[155,155],
                 11:[220,135],
                 12:[90,195],
@@ -319,6 +319,15 @@ gw_pos_dict = { 10:[155,155],
                 17:[150,260],
                 18:[340,150],
                 19:[95,290] }
+
+flc_sj_pos = {
+                1:[233,78], # E2
+                2:[162,130],# S2
+                3:[72,123], # w2
+                4:[242,100], # E1
+                5:[141,148], # S1
+                6:[63,79] # W1
+            }
 
 
 dm = win32com.client.Dispatch('dm.dmsoft')
