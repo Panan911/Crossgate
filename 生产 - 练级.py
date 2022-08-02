@@ -6,7 +6,6 @@ import random
 import sys
 
 def begin():
-    print(player.Get_map_name())
     # 自动战斗
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :

@@ -91,13 +91,10 @@ def Call_npc_nurse():
     print('执行脚本第{}行'.format(sys._getframe().f_lineno), time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())),'结束补给!')
 
 def auto_walk(pos_x,pos_y):
-    while call.Get_is_fight() not in (1,3) :
-        x = pos_x
-        y = pos_y
-        Goto(x,y)
-        time.sleep(1.2)
-        Goto(x + 6,y)
-        time.sleep(1.2)
+    x = pos_x
+    y = pos_y
+    Goto(x,y)
+    Goto(x + 6,y)
 
 def Goto(pos_x,pos_y):
     '''去某个坐标'''
@@ -138,7 +135,7 @@ def Goto(pos_x,pos_y):
     dm.leftclick()
     while 1:
         time.sleep(0.1)
-        if call.Get_player_moving() == 0:
+        if call.Get_player_moving() == 0 or call.Get_is_fight() > 0:
             break
 
 def MovetoClick(pos_x,pos_y):
@@ -241,7 +238,12 @@ def chick_player():
 def chick_pet():
     '''点击宠物'''
     r_pos = random.randint(5,10)
-    MovetoClick(400,348 - r_pos)
+    MovetoClick(420,294 - r_pos)
+
+def escape():
+    '''逃跑'''
+    r_pos = random.randint(1,10)
+    MovetoClick(585 + r_pos,54)
 
 def Get_gzq():
     '''改造券对话'''

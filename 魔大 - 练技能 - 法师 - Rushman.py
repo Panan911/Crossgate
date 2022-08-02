@@ -17,9 +17,12 @@ import sys
 
 def begin():
     player.Get_player_hpmp()
-    while player.Get_is_fight() not in (1,3) and player.s_minmp >= 100 and player.Get_map_name() == '莎莲娜':
-        gc.auto_walk(115,102)
-        player.Get_player_hpmp()
+    if player.Get_is_fight() == 0 and player.s_minmp >= 100 and player.Get_map_name() == '莎莲娜':
+        while 1:
+            gc.auto_walk(115,102)
+            if player.Get_is_fight() > 0 :
+                print('开始战斗')
+                break
     # 回去补给
     if player.Get_is_fight() not in (1,3) and (player.s_minmp < 100 or player.s_minhp < 100) and player.Get_map_name() == '莎莲娜':
         print('没魔了，回城补给')
@@ -259,47 +262,30 @@ def chose_monster():
     
 def call_goto_hospital():
     gc.Goto(118,100)
-    time.sleep(1)
     while player.Get_map_name() != '魔法大学' :
         time.sleep(2)
     time.sleep(1)
     gc.Goto(75,165)
-    time.sleep(1.5)
     gc.Goto(75,159)
-    time.sleep(1.5)
     gc.Goto(75,153)
-    time.sleep(1.5)
     gc.Goto(75,147)
-    time.sleep(1.5)
     gc.Goto(75,141)
-    time.sleep(1.5)
     gc.Goto(75,136)
-    time.sleep(1.5)
     gc.Goto(75,130)
-    time.sleep(1.5)
     gc.Goto(73,124)
-    time.sleep(1.5)
     gc.Goto(75,120)
-    time.sleep(1.5)
     gc.Goto(75,114)
-    time.sleep(1.5)
     gc.Goto(75,108)
-    time.sleep(1.5)
     gc.Goto(75,102)
-    time.sleep(1.5)
     gc.Goto(75,96)
-    time.sleep(1.5)
     gc.Goto(75,93)
-    time.sleep(1)
     while player.Get_map_name() != '魔法大学内部' :
         time.sleep(2)
     time.sleep(1)
     gc.Goto(40,53)
-    time.sleep(1.5)
     gc.Goto(37,50)
-    time.sleep(1.5)
     gc.Goto(33,48)
-    time.sleep(1.5)
+    time.sleep(0.5)
     dm.moveto(162,105) # 右键资深医生
     time.sleep(0.1)
     dm.rightclick()
@@ -313,38 +299,23 @@ def call_goto_hospital():
 def call_goto_技能点():
     time.sleep(1)
     gc.Goto(39,51)
-    time.sleep(1.5)
     gc.Goto(39,59)
-    time.sleep(2)
     while player.Get_map_name() != '魔法大学' :
         time.sleep(2)
     time.sleep(1)
     gc.Goto(74,100)
-    time.sleep(2)
     gc.Goto(74,108)
-    time.sleep(2)
     gc.Goto(74,116)
-    time.sleep(2)
     gc.Goto(74,122)
-    time.sleep(2)
     gc.Goto(72,125)
-    time.sleep(0.8)
     gc.Goto(74,128)
-    time.sleep(1)
     gc.Goto(75,135)
-    time.sleep(1.5)
     gc.Goto(75,142)
-    time.sleep(1.5)
     gc.Goto(75,149)
-    time.sleep(1.5)
     gc.Goto(75,153)
-    time.sleep(1.5)
     gc.Goto(75,160)
-    time.sleep(1.5)
     gc.Goto(75,166)
-    time.sleep(1.5)
     gc.Goto(75,172)
-    time.sleep(2)
     while player.Get_map_name() != '莎莲娜' :
         time.sleep(2)
     time.sleep(1)
@@ -354,22 +325,15 @@ def call_goto_技能点():
 def call_goto_sell():
     '''去卖东西'''
     gc.Goto(40,49)
-    time.sleep(1.5)
     gc.Goto(46,49)
-    time.sleep(1.5)
     gc.Goto(49,46)
-    time.sleep(1.5)
     gc.Goto(51,43)
-    time.sleep(1.5)
     while player.Get_map_name() != '技术室' :
         time.sleep(2)
     time.sleep(1)
     gc.Goto(8,12)
-    time.sleep(1.5)
     gc.Goto(14,9)
-    time.sleep(1.5)
     gc.Goto(20,10)
-    time.sleep(1.5)
     time.sleep(1)
     dm.moveto(412,352)
     time.sleep(0.05)
@@ -381,6 +345,7 @@ def call_goto_sell():
         color = dm.GetColor(246,242)
     time.sleep(0.5)
     gc.MovetoClick(315,264)
+    time.sleep(0.5)
     color = ""
     color = dm.GetColor(484,372)
     while color != "346875" :
@@ -395,19 +360,14 @@ def call_goto_sell():
     gc.MovetoClick(120,390)
     time.sleep(1)
     gc.Goto(23,15)
-    time.sleep(1.5)
     gc.Goto(23,18)
     while player.Get_map_name() != '魔法大学内部' :
         time.sleep(2)
     time.sleep(1)
     gc.Goto(63,48)
-    time.sleep(1.5)
     gc.Goto(56,49)
-    time.sleep(1.5)
     gc.Goto(50,49)
-    time.sleep(1.5)
     gc.Goto(43,50)
-    time.sleep(1.5)
 
 # ----------------------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
@@ -417,9 +377,9 @@ summoner_bh_skill = "吸血魔法"
 summoner_bh_skill_lv = 4
 summoner_bh_skill_ndmp = 40
 ### 人物单体技能设置
-summoner_ft_skill = "冰冻魔法"
-summoner_ft_skill_lv = 5
-summoner_ft_skill_ndmp = 25
+summoner_ft_skill = "火焰魔法"
+summoner_ft_skill_lv = 6
+summoner_ft_skill_ndmp = 30
 ### 人物强力魔法
 summoner_ql_skill = "强力冰冻魔法"
 summoner_ql_skill_lv = 3
@@ -443,3 +403,4 @@ if __name__ == '__main__':
     pos_y = player.Get_player_pos()[1]
     while 1:    
         begin()
+        time.sleep(0.001)

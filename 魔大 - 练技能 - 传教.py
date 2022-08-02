@@ -7,15 +7,35 @@ import sys
 
 
 def begin():
+    player.Get_player_hpmp()
+    if player.Get_is_fight() == 0 and player.s_minmp >= 100 and player.Get_map_name() == '莎莲娜':
+        while 1:
+            gc.auto_walk(180,163)
+            if player.Get_is_fight() > 0 :
+                print('开始战斗')
+                break
+    # 回去补给
+    if player.Get_is_fight() not in (1,3) and (player.s_minmp < 144 or player.s_minhp < 100) and player.Get_map_name() == '莎莲娜':
+        print('没魔了，回城补给')
+        while player.Get_player_moving() != 0 :
+            time.sleep(0.5)
+        gc.MovetoClick(318,237)
+        time.sleep(0.5)
+        call_goto_hospital()
+        gc.Call_npc_nurse()
+        if len(player.arrange_package()) >= 18 :
+            print(len(player.arrange_package()))
+            print('石头满了')
+    if player.Get_is_fight() not in (1,3) and player.Get_player_pos()[0] == 14 and player.Get_player_pos()[1] == 10 :  
+        time.sleep(0.5)
+        call_goto_技能点()
+
     # 自动战斗
     if player.Get_is_fight() in (1,3):
         if player.Get_whois_act() in (1,4) :
             player.Get_monster_info()
-            # if player.is_lv1 == 1 :
-            #     print('有1级怪，停止自动战斗')
-            #     quit()
             if player.Get_whois_act() == 1 :
-                # chose_monster()
+                chose_monster()
                 player_act()
                 while player.Get_whois_act() not in (4,5) :
                     time.sleep(0.1)
@@ -29,7 +49,7 @@ def begin():
                 elif player.gw_cnt < 2 and player.player_mp >= summoner_qt_skill_ndmp:
                     pet_act('防御')
                 else :
-                    pet_act('攻击')
+                    pet_act('乾坤')
                     gc.chick_monster(gw_x,gw_y)
                 time.sleep(0.1)
             else :
@@ -50,24 +70,21 @@ def player_act():
     # 调整一下鼠标位置
     r_pos = random.randint(1,20)
     dm.moveto(253 + r_pos,35 + r_pos)
+
+
+
     # 怪物数量 >= 某个值，群攻魔法值足够，使用群攻技能
-    if player.player_mp >= summoner_qt_skill_ndmp :
-        gc.use_skill(summoner_qt_skill,summoner_qt_skill_lv)
-        gc.MovetoClick(412,324 - r_pos) # 寵物位置
-    # 怪物数量在某个阈值内，并且有强力点，强力技能魔法足够，使用强力魔法技能：
-    elif player.gw_cnt in (4,5) and is_qld == 1 and player.player_mp >= summoner_ql_skill_ndmp :
-        gc.use_skill(summoner_ql_skill,summoner_ql_skill_lv)
-        gc.chick_monster(gw_x,gw_y)
-    # 怪物数量 <= 某个数值，怪物保护魔法足够，使用人物保护技能
-    elif player.gw_cnt <= summoner_bh_gwcnt and player.player_mp >= summoner_bh_skill_ndmp and player.player_hp / player.player_maxhp < 0.8 :
+    if player.gw_cnt <= summoner_bh_gwcnt and player.player_mp >= summoner_bh_skill_ndmp and player.player_hp / player.player_maxhp < 0.75 :
         gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
-        gc.chick_monster(gw_x,gw_y)
-    # 使用单体技能
-    elif player.player_mp >= summoner_ft_skill_ndmp :
-        gc.use_skill(summoner_ft_skill,summoner_ft_skill_lv)
-        gc.chick_monster(gw_x,gw_y)
+        gc.chick_player()
+    elif player.player_mp >= summoner_bh_skill_ndmp and player.pet_hp / player.pet_maxhp < summoner_bh_rate :
+        gc.use_skill(summoner_bh_skill,summoner_bh_skill_lv)
+        gc.chick_pet()
+    elif player.player_mp >= 144 :
+        gc.use_skill('超强补血',6)
+        gc.MovetoClick(412,324 - r_pos) # 寵物位置
     else :
-        gc.ordinary_acct(gw_x,gw_y)
+        gc.escape()
 
 def pet_act(skill_name):
     # 调整一下鼠标位置
@@ -224,48 +241,19 @@ def chose_monster():
                 gw_y = gw_pos[1]
     
 def call_goto_hospital():
-    gc.Goto(118,100)
-    time.sleep(1)
-    while player.Get_map_name() != '魔法大学' :
+    gc.Goto(183,161)
+    while player.Get_map_name() != '阿巴尼斯村' :
         time.sleep(2)
     time.sleep(1)
-    gc.Goto(75,165)
-    time.sleep(1.5)
-    gc.Goto(75,159)
-    time.sleep(1.5)
-    gc.Goto(75,153)
-    time.sleep(1.5)
-    gc.Goto(75,147)
-    time.sleep(1.5)
-    gc.Goto(75,141)
-    time.sleep(1.5)
-    gc.Goto(75,136)
-    time.sleep(1.5)
-    gc.Goto(75,130)
-    time.sleep(1.5)
-    gc.Goto(73,124)
-    time.sleep(1.5)
-    gc.Goto(75,120)
-    time.sleep(1.5)
-    gc.Goto(75,114)
-    time.sleep(1.5)
-    gc.Goto(75,108)
-    time.sleep(1.5)
-    gc.Goto(75,102)
-    time.sleep(1.5)
-    gc.Goto(75,96)
-    time.sleep(1.5)
-    gc.Goto(75,93)
-    time.sleep(1)
-    while player.Get_map_name() != '魔法大学内部' :
+    gc.Goto(40,66)
+    gc.Goto(43,64)
+    gc.Goto(47,64)
+    while player.Get_map_name() != '医院' :
         time.sleep(2)
     time.sleep(1)
-    gc.Goto(40,53)
-    time.sleep(1.5)
-    gc.Goto(37,50)
-    time.sleep(1.5)
-    gc.Goto(33,48)
-    time.sleep(1.5)
+    gc.Goto(8,9)
+    gc.Goto(14,10)
+    time.sleep(0.2)
     dm.moveto(162,105) # 右键资深医生
     time.sleep(0.1)
     dm.rightclick()
@@ -274,109 +262,26 @@ def call_goto_hospital():
     while color != '346875' :
         time.sleep(0.1)
         color = dm.Getcolor(294,319)
-    # gc.Call_npc_nurse()
 
 def call_goto_技能点():
-    gc.Goto(39,51)
-    time.sleep(1.5)
-    gc.Goto(39,59)
-    time.sleep(2)
-    while player.Get_map_name() != '魔法大学' :
+    gc.Goto(9,10)
+    gc.Goto(1,9)
+    while player.Get_map_name() != '阿巴尼斯村' :
         time.sleep(2)
     time.sleep(1)
-    gc.Goto(74,100)
-    time.sleep(2)
-    gc.Goto(74,108)
-    time.sleep(2)
-    gc.Goto(74,116)
-    time.sleep(2)
-    gc.Goto(74,122)
-    time.sleep(2)
-    gc.Goto(72,125)
-    time.sleep(0.8)
-    gc.Goto(74,128)
-    time.sleep(1)
-    gc.Goto(75,135)
-    time.sleep(1.5)
-    gc.Goto(75,142)
-    time.sleep(1.5)
-    gc.Goto(75,149)
-    time.sleep(1.5)
-    gc.Goto(75,153)
-    time.sleep(1.5)
-    gc.Goto(75,160)
-    time.sleep(1.5)
-    gc.Goto(75,166)
-    time.sleep(1.5)
-    gc.Goto(75,172)
-    time.sleep(2)
+    gc.Goto(41,65)
+    gc.Goto(38,69)
+    gc.Goto(38,71)
     while player.Get_map_name() != '莎莲娜' :
         time.sleep(2)
-    time.sleep(1)
-    gc.Goto(116,102)
-    time.sleep(0.2)
-
-def call_goto_sell():
-    '''去卖东西'''
-    gc.Goto(40,49)
-    time.sleep(1.5)
-    gc.Goto(46,49)
-    time.sleep(1.5)
-    gc.Goto(50,46)
-    time.sleep(1.5)
-    gc.Goto(47,49)
-    time.sleep(1.5)
-    gc.Goto(51,43)
-    time.sleep(1.5)
-    while player.Get_map_name() != '技术室' :
-        time.sleep(2)
-    time.sleep(1)
-    gc.Goto(8,12)
-    time.sleep(1.5)
-    gc.Goto(14,9)
-    time.sleep(1.5)
-    gc.Goto(20,10)
-    time.sleep(1.5)
-    time.sleep(0.5)
-    dm.moveto(412,352)
-    time.sleep(0.05)
-    dm.rightclick(351,264)
-    color = ""
-    color = dm.GetColor(246,242)
-    while color != "8c6100" :
-        time.sleep(0.5)
-    gc.MovetoChick(315,264)
-    color = ""
-    color = dm.GetColor(484,372)
-    while color != "346875" :
-        time.sleep(0.5)
-    gc.MovetoChick(388,373)
-    time.sleep(0.5)
-    gc.MovetoChick(322,371)
-    time.sleep(0.5)
-    gc.MovetoChick(322,371)
-    time.sleep(0.5)
-    gc.MovetoChick(120,390)
-    gc.Goto(23,15)
-    time.sleep(1.5)
-    gc.Goto(23,18)
-    while player.Get_map_name() != '魔法大学内部' :
-        time.sleep(2)
-    time.sleep(1)
-    gc.Goto(63,48)
-    time.sleep(1.5)
-    gc.Goto(56,49)
-    time.sleep(1.5)
-    gc.Goto(43,50)
-    time.sleep(1.5)
 
 #------------------战斗参数设置---------------------------------------- #
 ### 人物战斗保护设置
-summoner_bh_rate = 0.9
+summoner_bh_rate = 0.5
 summoner_bh_gwcnt = 3
-summoner_bh_skill = "吸血魔法"
+summoner_bh_skill = "补血魔法"
 summoner_bh_skill_lv = 4
-summoner_bh_skill_ndmp = 40
+summoner_bh_skill_ndmp = 60
 ### 人物单体技能设置
 summoner_ft_skill = "冰冻魔法"
 summoner_ft_skill_lv = 5
